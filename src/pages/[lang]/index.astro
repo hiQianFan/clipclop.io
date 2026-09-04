@@ -1,0 +1,42 @@
+---
+import { ArrowLeft, ArrowRight, Code2, Compass, Download, File, Folder, Image, MonitorSmartphone, SlidersHorizontal, SquareTerminal } from "@lucide/astro";
+import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
+import { locales, home, type Locale } from "../../i18n";
+
+export function getStaticPaths() { return locales.map(locale => ({ params: { lang: locale }, props: { locale } })); }
+const { locale } = Astro.props as { locale: Locale };
+const c = home[locale];
+const macDownload = "/download/macos", windowsDownload = "/download/windows";
+---
+<LocalizedLayout locale={locale} page="home" title={c.title} description={c.description} ogDescription={c.ogDescription} stylesheet="/styles/index.css">
+<template id="icon-browser"><Compass size={15} strokeWidth={1.8} /></template>
+<template id="icon-folder"><Folder size={15} strokeWidth={1.8} /></template>
+<template id="icon-image"><Image size={15} strokeWidth={1.8} /></template>
+<template id="icon-terminal"><SquareTerminal size={15} strokeWidth={1.8} /></template>
+<template id="icon-code"><Code2 size={15} strokeWidth={1.8} /></template>
+<template id="icon-device"><MonitorSmartphone size={15} strokeWidth={1.8} /></template>
+<template id="icon-file"><File size={18} strokeWidth={1.7} /></template>
+<main>
+  <section class="hero" id="home" aria-labelledby="hero-title"><div class="hero-inner">
+    <div class="hero-copy"><h1 id="hero-title">ClipClop</h1><div class="hero-shortcuts"><span class="shortcut-hint"><kbd id="open-shortcut">⌃⌘C</kbd> <span>{c.open}</span></span><span class="shortcut-hint"><kbd>↵</kbd> <span>{c.paste}</span></span></div><p class="tagline">{c.tagline}<br>{c.tagline2}</p></div>
+    <div class="hero-actions"><a class="primary platform-download" href={macDownload} aria-label="Download ClipClop for macOS"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.7 13.5c0-2.4 2-3.6 2.1-3.7a4.5 4.5 0 0 0-3.5-1.9c-1.5-.2-2.9.9-3.7.9-.8 0-2-.9-3.3-.9a4.9 4.9 0 0 0-4.1 2.5c-1.8 3-.5 7.5 1.2 10 .9 1.2 1.8 2.5 3.2 2.4 1.3-.1 1.8-.8 3.4-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.2 3.1-2.4 1-1.4 1.4-2.8 1.4-2.9-.1 0-3.2-1.2-3.2-4M14.3 6.3A4.1 4.1 0 0 0 15.2 3a4.2 4.2 0 0 0-2.8 1.4 3.8 3.8 0 0 0-1 3 3.5 3.5 0 0 0 2.9-1.1"/></svg><span>{c.mac}</span></a><a class="secondary-download platform-download" href={windowsDownload} aria-label="Download ClipClop for Windows"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.3 10.6 4v7.3H3V5.3Zm8.5-1.5L21 2.4v8.9h-9.5V3.8ZM3 12.2h7.6v7.4L3 18.3v-6.1Zm8.5 0H21v9.4l-9.5-1.7v-7.7Z"/></svg><span>{c.windows}</span></a></div>
+    <img class="logo" src="/hero-logo.webp" width="680" height="680" alt="ClipClop cow and horse app icon">
+  </div></section>
+  <section class="showcase" id="demo" aria-label="Interactive ClipClop preview">
+    <div class="showcase-stage">
+      <aside class="story" aria-live="polite"><div class="story-track" id="story-track"><div class="story-panel is-current"><h2 set:html={c.storyTitle}/><p>{c.storyCopy}</p></div></div></aside>
+    <div class="app-frame"><div class="app-window">
+      <header class="titlebar"><div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>ClipClop</span></div></header>
+      <section class="left" aria-label="Clipboard history"><div class="search"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="search" type="search" placeholder={c.search} autocomplete="off" aria-label={c.search}><button class="filter-static" type="button" aria-label={c.filter}><SlidersHorizontal size={14} aria-hidden="true" /><kbd aria-hidden="true">/</kbd></button></div><div class="clip-list" id="clip-list" role="listbox" tabindex="0" aria-label="Clipboard history"></div></section>
+      <section class="preview" aria-label="Selected clipboard item preview" aria-live="polite"><div class="preview-body"><div class="preview-content" id="preview"></div></div><div class="preview-meta"><div class="meta-content" id="facts"></div></div></section>
+      <footer class="pager"><button disabled aria-label="Previous page"><ArrowLeft size={16} aria-hidden="true" /></button><div class="page-scrubber" aria-hidden="true"><span class="page-ticks"><i></i><i></i><i></i><i></i><i></i></span></div><span class="page-count">1/1</span><button disabled aria-label="Next page"><ArrowRight size={16} aria-hidden="true" /></button></footer>
+      <footer class="actions" aria-label="Preview-only actions"><span class="static-action" aria-disabled="true"><kbd>⌘ K</kbd> <span>{c.actions}</span></span><span class="static-action primary-static" aria-disabled="true">↵ <span>{c.paste}</span></span></footer>
+    </div></div>
+    </div><div id="steps" aria-hidden="true"></div>
+  </section>
+  <section class="home-section trust" aria-labelledby="trust-title"><h2 id="trust-title">{c.trustTitle}</h2><p>{c.trustCopy}</p><nav class="text-links" aria-label="Trust details"><a href="https://github.com/hiQianFan/ClipClop" target="_blank" rel="noopener noreferrer" >{c.source}</a><a href={`/${locale}/privacy`}>{c.privacy}</a></nav></section>
+  <section class="home-section closing" aria-labelledby="closing-title"><h2 id="closing-title">{c.closingTitle}</h2><p>{c.closingCopy}</p><div class="closing-actions"><a class="primary" href={`/${locale}/download`}><Download size={18} aria-hidden="true"/><span>{c.download}</span></a></div><small class="closing-note"><span id="release-context">{c.release}</span> <a href={`/${locale}/changelog`}>{c.fullChangelog}</a></small></section>
+</main>
+  <script id="demo-data" type="application/json" set:html={JSON.stringify({ locale, clips: c.demo.clips, words: c.demo.words })}/>
+  <script slot="scripts" is:inline src="/scripts/index.js"></script>
+</LocalizedLayout>

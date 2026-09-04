@@ -1,0 +1,36 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { site, type Locale } from "../i18n";
+
+interface Props {
+  locale: Locale;
+  page: "home" | "download" | "changelog" | "privacy";
+  title: string;
+  description: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  stylesheet: string;
+  ogType?: "website" | "article";
+}
+const { locale, page, title, description, ogTitle = title, ogDescription = description, stylesheet, ogType = "website" } = Astro.props;
+const copy = site[locale];
+const suffix = page === "home" ? "" : `/${page}`;
+const canonical = `https://clipclop.io/${locale}${suffix}`;
+---
+<!doctype html>
+<html lang={copy.lang} data-locale={locale}>
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="alternate" hreflang="zh" href={`https://clipclop.io/zh${suffix}`}><link rel="alternate" hreflang="en" href={`https://clipclop.io/en${suffix}`}><link rel="alternate" hreflang="x-default" href={`https://clipclop.io/en${suffix}`}>
+  <meta property="og:locale" content={copy.ogLocale}><meta property="og:type" content={ogType}><meta property="og:site_name" content="ClipClop"><meta property="og:title" content={ogTitle}><meta property="og:description" content={ogDescription}><meta property="og:url" content={canonical}><meta property="og:image" content="https://clipclop.io/hero-logo.webp">
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content={ogTitle}><meta name="twitter:description" content={ogDescription}><meta name="twitter:image" content="https://clipclop.io/hero-logo.webp">
+  <meta name="color-scheme" content="light dark"><meta name="theme-color" content="#17181a" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f2f3f4" media="(prefers-color-scheme: light)">
+  <title>{title}</title><link rel="icon" href="/favicon.png" type="image/png"><link rel="apple-touch-icon" href="/favicon.png">
+  <script is:inline>try{const theme=localStorage.getItem("clipclop-theme");if(theme==="light"||theme==="dark")document.documentElement.dataset.theme=theme}catch{}</script>
+  <link rel="stylesheet" href={stylesheet}>
+</head>
+<body><SiteHeader locale={locale} current={page}/><slot/><SiteFooter locale={locale}/><slot name="scripts"/></body>
+</html>
