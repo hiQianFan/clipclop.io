@@ -46,7 +46,23 @@ test("serves updater and immutable releases from R2", async () => {
 });
 
 test("delegates website routes to Static Assets", async () => {
-  for (const path of ["/", "/download", "/privacy", "/changelog", "/favicon.svg", "/unknown"]) {
+  for (const path of ["/zh", "/en/download", "/zh/privacy", "/en/changelog", "/favicon.svg", "/unknown"]) {
     assert.equal(await (await worker.fetch(request(path), env())).text(), `asset:${path}`);
+  }
+});
+
+test("redirects bare pages to the preferred supported language", async () => {
+  const cases = [
+    ["/", "zh-CN,zh;q=0.9,en;q=0.8", "/zh"],
+    ["/privacy", "en;q=0.7,zh;q=0.9", "/zh/privacy"],
+    ["/changelog", "fr-FR, en;q=0.5", "/en/changelog"],
+    ["/download", "", "/en/download"],
+  ];
+  for (const [path, language, target] of cases) {
+    const response = await worker.fetch(new Request(`https://clipclop.io${path}?from=test`, { headers: { "accept-language": language } }), env());
+    assert.equal(response.status, 302);
+    assert.equal(response.headers.get("location"), `https://clipclop.io${target}?from=test`);
+    assert.equal(response.headers.get("vary"), "Accept-Language");
+    assert.equal(response.headers.get("cache-control"), "no-store");
   }
 });

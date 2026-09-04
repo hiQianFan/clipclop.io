@@ -7,6 +7,8 @@ preview_urls = false
 [assets]
 directory = "./dist"
 binding = "ASSETS"
+html_handling = "drop-trailing-slash"
+run_worker_first = ["/", "/download", "/download/*", "/changelog", "/privacy", "/latest.json", "/releases/*"]
 
 [[r2_buckets]]
 binding = "RELEASES"

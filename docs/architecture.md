@@ -20,6 +20,8 @@ GitHub API                Stars 与公开发布记录
 ```text
 clipclop.io/*
   └─ Cloudflare Worker
+       ├─ /、/download、/changelog、/privacy：按 Accept-Language 302 到 /zh/* 或 /en/*
+       ├─ /zh/*、/en/*：Workers Static Assets 返回对应语言的静态页面
        ├─ 匹配 dist/ 文件：Workers Static Assets 返回静态内容
        ├─ /download/{platform}：读取 R2 downloads.json 后 302
        ├─ /latest.json：返回 R2 updater manifest
@@ -49,6 +51,7 @@ clipclop.io/*
 ## 不变量
 
 - 所有页面必须静态生成，不增加 SSR adapter。
+- 页面规范 URL 必须包含 `/zh` 或 `/en`；裸页面 URL 仅作为语言协商入口。
 - 不引入应用后端、账号系统或服务端数据库。
 - 默认下载链接只能使用稳定平台端点，不得硬编码版本文件名。
 - 主仓库 `DESIGN.md` 是产品 UI tokens 的单一事实源。

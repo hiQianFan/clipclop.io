@@ -4,7 +4,7 @@
 
 交互式产品演示与下载入口 - 通过滚动驱动的 App 体验展示 ClipClop 核心功能。
 
-🌐 **官网**: [clipclop.io](https://clipclop.io)
+🌐 **官网**: [简体中文](https://clipclop.io/zh) · [English](https://clipclop.io/en)
 
 📦 **主仓库**: [github.com/hiQianFan/ClipClop](https://github.com/hiQianFan/ClipClop)
 

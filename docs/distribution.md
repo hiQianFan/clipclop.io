@@ -26,8 +26,9 @@ clipclop.io (Cloudflare Custom Domain)
 
 ## 公共 URL 契约
 
-- `https://clipclop.io/`：官网首页。
-- `https://clipclop.io/download`：面向用户的下载页面。
+- `https://clipclop.io/`：按 `Accept-Language` 临时重定向到中文或英文首页，默认英文。
+- `https://clipclop.io/zh`、`https://clipclop.io/en`：中文和英文官网首页。
+- `https://clipclop.io/zh/download`、`https://clipclop.io/en/download`：面向用户的本地化下载页面。
 - `https://clipclop.io/download/macos`：重定向到最新 macOS Universal DMG。
 - `https://clipclop.io/download/windows`：重定向到最新 Windows x64 NSIS 安装程序。
 - `https://clipclop.io/latest.json`：Tauri 自动更新 manifest。
@@ -66,6 +67,7 @@ App 主仓库继续负责：
 ## 下载与缓存规则
 
 - `/download/macos` 和 `/download/windows` 读取 `downloads.json`，只接受以 `/releases/` 开头的 bucket 内路径，然后返回 `302`。
+- `/`、`/download`、`/changelog` 和 `/privacy` 按 `Accept-Language` 返回 `302` 到 `/zh/*` 或 `/en/*`，并设置 `Vary: Accept-Language` 与 `Cache-Control: no-store`；不支持的语言默认英文。
 - `downloads.json`、`latest.json` 和下载重定向使用 `no-cache`。
 - `/releases/v<version>/...` 使用一年期 `public, max-age=31536000, immutable`。
 - 下载 metadata 无效或 R2 不可用时返回 `503`，不得跳转到未经验证的外部地址。

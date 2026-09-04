@@ -1,0 +1,32 @@
+---
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+---
+<!doctype html>
+<html lang="en" data-locale="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Learn how ClipClop stores clipboard history locally, when it accesses the network, and which deletion and permission controls are available.">
+  <link rel="canonical" href="https://clipclop.io/en/privacy">
+  <link rel="alternate" hreflang="zh" href="https://clipclop.io/zh/privacy"><link rel="alternate" hreflang="en" href="https://clipclop.io/en/privacy"><link rel="alternate" hreflang="x-default" href="https://clipclop.io/en/privacy"><meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article"><meta property="og:site_name" content="ClipClop"><meta property="og:title" content="Privacy — ClipClop"><meta property="og:description" content="Learn how ClipClop stores clipboard history locally, when it accesses the network, and which deletion and permission controls are available."><meta property="og:url" content="https://clipclop.io/en/privacy"><meta property="og:image" content="https://clipclop.io/hero-logo.webp">
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Privacy — ClipClop"><meta name="twitter:description" content="Learn how ClipClop stores clipboard history locally, when it accesses the network, and which deletion and permission controls are available."><meta name="twitter:image" content="https://clipclop.io/hero-logo.webp">
+  <meta name="color-scheme" content="light dark"><title>Privacy — ClipClop</title><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script is:inline>try{const theme=localStorage.getItem("clipclop-theme");if(theme==="light"||theme==="dark")document.documentElement.dataset.theme=theme}catch{}</script>
+  <link rel="stylesheet" href="/styles/privacy.css">
+</head>
+<body>
+  <SiteHeader current="privacy" />
+  <main class="privacy">
+    <article data-privacy="en">
+      <h1>Privacy</h1><p class="intro">ClipClop keeps clipboard history on your device. Core capture, storage, search, preview, and paste operations need no cloud processing. The app has no account, cloud sync, telemetry, advertising, or content-analysis service, and it never opens copied URLs in the background.</p>
+      <h2>Data stored locally</h2><p>ClipClop stores supported clipboard content locally, together with related source-application metadata, file-path references, and settings. It does not inspect content to decide whether it is sensitive, so clipboard history should not be treated as a password vault.</p><p>File entries reference the original file path; ClipClop does not copy or move the original file. File preview is off by default and, while off, shows only stored names, paths, and source information. When enabled, ClipClop may read a file only after you explicitly preview it, to obtain its size, create a thumbnail, or invoke the system preview. The original file is never uploaded.</p><p>The local database relies on the current operating-system account and disk encryption such as FileVault or BitLocker. ClipClop does not currently add separate application-level database encryption.</p>
+      <h2>Network access</h2><p>When automatic update checks are enabled, ClipClop contacts <code>clipclop.io</code>, served through Cloudflare, at most once every 24 hours to compare versions and retrieve update information. It downloads an installer only after you choose to update.</p><p>This website retrieves release history and the public GitHub star count from GitHub's public API. None of these requests includes clipboard content, history, file paths, or source-application metadata. Automatic update checks can be disabled in the app's Settings.</p>
+      <h2>Your controls</h2><p>You can delete individual entries, clear all history, and set separate age and item-count limits. ClipClop removes records when either limit is reached. If “move recently used items to the top” is enabled, cleanup uses each item's last-used time. Quitting ClipClop stops new clipboard capture.</p><p>Whether uninstalling also removes data depends on the operating system and installation method. To remove all local data, quit ClipClop and delete the application data directory for <code>com.clipclop.desktop</code>.</p>
+      <h2>Open source and auditability</h2><p>ClipClop's code and repository are public. You can inspect the implementation on <a href="https://github.com/hiQianFan/ClipClop" target="_blank" rel="noopener noreferrer">GitHub</a> to independently verify what the app stores, when it reads files, and when it accesses the network.</p>
+      <h2>System permissions</h2><p>On macOS, optional automatic paste uses Accessibility permission only to send the paste shortcut after you choose an item. Denying permission does not prevent copying: ClipClop still places the selected content on the system clipboard so you can paste it manually.</p><p>File preview uses separate Full Disk Access permission. macOS requires you to grant it manually and return to ClipClop to confirm before the app reads original files. You can skip, disable, or revoke this permission at any time; file history will continue to show stored basic information. First-run Quick Start uses built-in examples and does not display your clipboard history.</p><p>This notice will be updated before any release that adds telemetry, cloud sync, or another network feature that processes clipboard data.</p>
+    </article>
+  </main><SiteFooter />
+  <script is:inline src="/scripts/privacy.js"></script>
+</body>
+</html>

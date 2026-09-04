@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://clipclop.io/</loc></url>
-  <url><loc>https://clipclop.io/download</loc></url>
-  <url><loc>https://clipclop.io/changelog</loc></url>
-  <url><loc>https://clipclop.io/privacy</loc></url>
+  <url><loc>https://clipclop.io/zh</loc></url>
+  <url><loc>https://clipclop.io/zh/download</loc></url>
+  <url><loc>https://clipclop.io/zh/changelog</loc></url>
+  <url><loc>https://clipclop.io/zh/privacy</loc></url>
+  <url><loc>https://clipclop.io/en</loc></url>
+  <url><loc>https://clipclop.io/en/download</loc></url>
+  <url><loc>https://clipclop.io/en/changelog</loc></url>
+  <url><loc>https://clipclop.io/en/privacy</loc></url>
 </urlset>
