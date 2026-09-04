@@ -1,5 +1,6 @@
 ---
 import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -22,17 +23,17 @@ import SiteHeader from "../components/SiteHeader.astro";
       <h1>隐私说明</h1><p class="intro">ClipClop 将剪贴历史保存在当前设备。应用没有账号、云同步、遥测、广告或内容分析服务，复制的网址也不会触发后台内容请求。</p>
       <h2>本地保存的数据</h2><p>ClipClop 可能保存受支持的剪贴板内容、来源应用信息、文件路径引用和设置。应用不会自动识别或过滤敏感内容。文件记录只引用原始路径；文件预览默认关闭，开启后只会在你明确预览时读取所选文件，不会复制、移动或上传原文件。</p><p>本地数据库依赖当前系统账户以及 FileVault、BitLocker 等磁盘加密保护。ClipClop 当前不提供应用层数据库加密。</p>
       <h2>网络访问</h2><p>启用自动检查更新后，ClipClop 最多每 24 小时访问一次由 Cloudflare R2 托管的 clipclop.mapin.net，用于比较版本、取得更新信息，并下载你选择安装的更新；更新说明视图还会访问 GitHub Releases。请求不包含剪贴板内容、历史、文件路径或来源应用信息，自动检查可在设置中关闭。</p>
-      <h2>你的控制方式</h2><p>你可以删除单条记录、清空历史、按时间和条目数量限制历史，或退出 ClipClop 来停止捕获。如需移除全部本地数据，请先退出 ClipClop，再删除 com.clipclop.desktop 对应的应用数据目录。</p>
+      <h2>你的控制方式</h2><p>你可以删除单条记录、清空历史、按时间和条目数量限制历史，或退出 ClipClop 来停止捕获。如需移除全部本地数据，请先退出 ClipClop，再删除 com.clipclop.desktop 对应的应用数据目录。</p><h2>开源与审查</h2><p>ClipClop 的代码和仓库完全公开。你可以在 <a href="https://github.com/hiQianFan/ClipClop">GitHub</a> 查看实现并独立审查上述数据与网络边界。</p>
       <h2>系统权限</h2><p>在 macOS 上，可选的自动粘贴仅使用辅助功能权限发送粘贴快捷键。拒绝权限时，ClipClop 仍会复制条目，你可以手动粘贴。文件预览的完整磁盘访问权限也可以跳过或随时撤销；关闭后，文件历史仍会显示已保存的基本信息，不访问原文件。</p><p>如果未来加入遥测、云同步，或任何会处理剪贴板数据的新联网功能，本说明必须在发布前更新。</p>
     </article>
     <article data-privacy="en" hidden>
       <h1>Privacy</h1><p class="intro">ClipClop keeps clipboard history on the current device. It has no account, cloud sync, telemetry, advertising, or content-analysis service, and copied URLs do not trigger background content requests.</p>
       <h2>Data stored locally</h2><p>ClipClop may store supported clipboard contents, source-application metadata, file-path references, and settings. It does not automatically identify or filter sensitive content. File entries reference their original paths. File preview is off by default and reads a selected file only when you explicitly preview it; ClipClop does not copy, move, or upload the original file.</p><p>The local database is protected by the current operating-system account and disk encryption such as FileVault or BitLocker. ClipClop does not currently add application-level database encryption.</p>
       <h2>Network access</h2><p>When automatic update checks are enabled, ClipClop contacts clipclop.mapin.net, hosted on Cloudflare R2, at most once every 24 hours to compare versions, retrieve update information, and download an update you choose to install. Release notes also contact GitHub Releases. These requests do not include clipboard contents, history, file paths, or source-application metadata. Automatic checks can be disabled in Settings.</p>
-      <h2>Your controls</h2><p>You can delete individual entries, clear all history, limit history by age and item count, or quit ClipClop to stop capture. To remove all local data, quit ClipClop and delete the application data directory for com.clipclop.desktop.</p>
+      <h2>Your controls</h2><p>You can delete individual entries, clear all history, limit history by age and item count, or quit ClipClop to stop capture. To remove all local data, quit ClipClop and delete the application data directory for com.clipclop.desktop.</p><h2>Open source and auditability</h2><p>ClipClop's code and repository are public. You can inspect the implementation on <a href="https://github.com/hiQianFan/ClipClop">GitHub</a> and independently review these data and network boundaries.</p>
       <h2>System permissions</h2><p>On macOS, optional automatic paste uses Accessibility permission only to send the paste shortcut. If permission is denied, ClipClop still copies the item so you can paste manually. Full Disk Access for file preview can also be skipped or revoked at any time; while disabled, file history shows stored basic information without reading original files.</p><p>This notice must be updated before adding telemetry, cloud sync, or any new network feature that processes clipboard data.</p>
     </article>
-  </main>
+  </main><SiteFooter />
   <script>function showPrivacy(locale){document.documentElement.lang=locale==="zh"?"zh-CN":"en";document.querySelectorAll("[data-privacy]").forEach(section=>section.hidden=section.dataset.privacy!==locale)}let saved;try{saved=localStorage.getItem("clipclop-locale")}catch{}showPrivacy(saved==="zh"||saved==="en"?saved:navigator.language.toLowerCase().startsWith("zh")?"zh":"en");window.addEventListener("clipclop:locale",event=>showPrivacy(event.detail));</script>
 </body>
 </html>
