@@ -2,12 +2,15 @@
   "name": "clipclop.io",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@9.15.3",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && rm -f dist/icon.png",
+    "test": "node --test worker.test.js",
+    "check:size": "node -e \"const{readdirSync,statSync}=require('node:fs'),{join}=require('node:path');let n=0;for(const d of(function* walk(p){for(const f of readdirSync(p)){const x=join(p,f),s=statSync(x);if(s.isDirectory())yield*walk(x);else yield x}})('dist'))n+=statSync(d).size;if(n>=500000)throw Error('dist is '+n+' bytes');console.log(n+' bytes')\"",
     "preview": "astro preview",
     "astro": "astro"
   },

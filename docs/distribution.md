@@ -2,7 +2,7 @@
 
 本文档是 ClipClop 官网域名、Cloudflare 部署和下载分发的单一事实源。
 
-## 目标架构
+## 部署架构
 
 ClipClop 官网只使用 Cloudflare 基础设施，不使用 Vercel、Netlify 或其他网站托管服务。
 
@@ -43,17 +43,6 @@ clipclop.io (Cloudflare Custom Domain)
 
 只有未来需要将下载流量、访问策略、故障域或维护团队独立隔离时，才重新评估 `download.clipclop.io`。迁移前不得同时公开两套新的正式下载地址。
 
-## 当前过渡状态
-
-正式安装包与更新文件已经位于 `clipclop-releases` R2 bucket，但公开入口暂时仍是 `clipclop.mapin.net`：
-
-- `https://clipclop.mapin.net/download/macos`
-- `https://clipclop.mapin.net/download/windows`
-- `https://clipclop.mapin.net/latest.json`
-- `https://clipclop.mapin.net/releases/v<version>/...`
-
-App 主仓库当前持有 Download Worker、R2 上传与发布工作流。本仓库尚未包含目标 Wrangler 配置和 Cloudflare 部署工作流，因此目标架构目前只是已确认的迁移方向，不应描述成已经上线。
-
 ## 仓库所有权
 
 本网站仓库负责：
@@ -80,15 +69,13 @@ App 主仓库继续负责：
 - `downloads.json`、`latest.json` 和下载重定向使用 `no-cache`。
 - `/releases/v<version>/...` 使用一年期 `public, max-age=31536000, immutable`。
 - 下载 metadata 无效或 R2 不可用时返回 `503`，不得跳转到未经验证的外部地址。
-- Cloudflare account ID、API token 和 R2 credentials 只存储在 CI secrets/variables 中。
+- 官网 CI 只保存 `CLOUDFLARE_ACCOUNT_ID` repository variable 和 `CLOUDFLARE_API_TOKEN` production environment secret；该 token 只授予 Worker 部署所需权限，不授予 R2 写权限。
+- R2 写入凭据只保存在 App 主仓库的 `production-release` environment。
 
-## 迁移顺序
+## 部署与回滚
 
-1. 将 Download Worker、测试和 Wrangler 配置从 App 主仓库迁入本仓库。
-2. 配置 Workers Static Assets、R2 binding 和 `clipclop.io` Custom Domain。
-3. 部署并验证静态页面、两个平台下载、缓存头、`latest.json` 和版本文件。
-4. 将官网按钮切换为 `clipclop.io/download/*`。
-5. 更新 App 的 Tauri updater endpoint 和隐私说明中的联网域名。
-6. 保留 `clipclop.mapin.net` 对新地址的兼容转发，确保旧版本客户端继续更新。
+`wrangler.toml` 是部署配置的单一事实源：`ASSETS` 指向 `dist/`，`RELEASES` 绑定现有 `clipclop-releases`，Custom Domain 为 `clipclop.io`，公开 `workers.dev` 和 preview URL 均关闭。`.github/workflows/deploy.yml` 是唯一生产部署器；`main` push 或手动触发时依次运行测试、构建、大小检查、Lighthouse 和 `wrangler deploy`。
 
-任何迁移都不得让已发布版本失去下载或自动更新能力。
+部署后记录 Wrangler 输出的 Worker version。生产异常时运行 `pnpm dlx wrangler rollback <VERSION_ID>` 恢复上一版本；Worker 回滚不修改 R2 对象。
+
+`clipclop.mapin.net` 不属于公开兼容契约。确认 `clipclop.io` 的页面、下载、更新和版本文件全部正常后，停用旧 Worker route，不配置重定向或代理。

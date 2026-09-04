@@ -59,8 +59,7 @@ pnpm preview
 - 无后端服务
 - 无用户账号系统
 - 正式下载链接使用 Cloudflare Worker/R2 稳定入口，不直接指向 GitHub Releases
-- 当前入口为 `https://clipclop.mapin.net/download/macos` 和 `https://clipclop.mapin.net/download/windows`
-- 目标入口为 `https://clipclop.io/download/macos` 和 `https://clipclop.io/download/windows`
+- 正式入口为 `https://clipclop.io/download/macos` 和 `https://clipclop.io/download/windows`
 - GitHub stars 通过公开 API 获取: `https://api.github.com/repos/hiQianFan/ClipClop`
 
 ## File ownership
@@ -105,8 +104,7 @@ pnpm preview
 - **平台**: Cloudflare Workers Static Assets + R2
 - **目标分支**: `main` 分支部署到生产环境
 - **正式域名**: `clipclop.io`
-- **当前下载域名**: `clipclop.mapin.net`（迁移完成前保留）
-- **目标所有权**: `clipclop.io` 的网站、DNS、Worker、R2 binding 与路由配置全部由本仓库维护
+- **所有权**: `clipclop.io` 的网站、DNS、Worker、R2 binding 与路由配置全部由本仓库维护
 - **环境变量**: 静态站点无需运行时变量；Cloudflare 部署凭据只存于 CI secrets/variables
 
 构建命令: `pnpm build`  

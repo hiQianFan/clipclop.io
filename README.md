@@ -77,8 +77,7 @@ pnpm preview
 - **目标分支**: `main` 部署到生产环境
 - **正式域名**: `clipclop.io`
 - **安装包与更新**: Cloudflare R2
-- **当前下载入口**: `clipclop.mapin.net/download/*`
-- **目标下载入口**: `clipclop.io/download/*`
+- **下载入口**: `clipclop.io/download/*`
 
 域名、Cloudflare Worker、R2 分发边界和迁移要求见 [docs/distribution.md](./docs/distribution.md)。
 

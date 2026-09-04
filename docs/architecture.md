@@ -33,9 +33,9 @@ clipclop.io/*
 - 目标运行平台：Cloudflare Workers Static Assets
 - 正式域名：`clipclop.io`
 - 部署来源：本仓库 `main` 分支
-- 预览部署：Cloudflare Workers preview deployment
-
-本仓库当前尚未包含目标 Wrangler 与 CI 部署配置；迁移完成前，不能把 Cloudflare 官网部署标记为已上线。
+- 部署配置：`wrangler.toml`（Static Assets `ASSETS` + R2 `RELEASES`）
+- 部署入口：`.github/workflows/deploy.yml`，通过检查后执行一次 `wrangler deploy`
+- 回滚：Wrangler Worker version rollback，不修改 R2 发布对象
 
 ## 外部依赖
 
