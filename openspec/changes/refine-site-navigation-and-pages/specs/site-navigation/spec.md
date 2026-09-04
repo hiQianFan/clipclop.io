@@ -12,25 +12,32 @@ The header SHALL present the ClipClop icon and name as a link to `/` and SHALL N
 - **THEN** the browser navigates to `/`
 
 ### Requirement: Desktop exposes primary destinations
-The desktop header SHALL expose Download, Changelog, and Privacy as page-level destinations, followed by GitHub stars, language, and theme controls.
+The desktop header SHALL expose the brand followed by GitHub stars, with Download, Changelog, Privacy, language, and theme controls aligned on the opposite side.
 
 #### Scenario: Desktop navigation
 - **WHEN** the header is displayed at desktop width
 - **THEN** Download, Changelog, and Privacy are visible without opening a menu
 
 ### Requirement: Mobile keeps navigation compact
-The mobile header SHALL show the ClipClop brand, GitHub star metric, and a More control. The More menu SHALL contain Download, Changelog, Privacy, language, and appearance controls.
+The mobile header SHALL show the ClipClop brand, GitHub star metric, and a More control. More SHALL open a full-viewport navigation surface with a clear close control, large destination targets, and inline expandable language and appearance choices; it SHALL NOT create overlapping popovers.
 
 #### Scenario: Opening mobile navigation
 - **WHEN** a visitor activates More at mobile width
 - **THEN** every primary destination and utility control is available in one accessible menu
 
 ### Requirement: GitHub state remains anonymous
-The site SHALL show the public star count with a GitHub mark, numeric count, and yellow star, cache successful values for six hours, and SHALL NOT request GitHub authorization or imply that the current visitor has starred the repository.
+The site SHALL show the public star count with a GitHub mark, tabular numeric count, and visually balanced yellow star, cache successful values for six hours, and SHALL NOT request GitHub authorization or imply that the current visitor has starred the repository.
 
 #### Scenario: Viewing GitHub stars
 - **WHEN** the public star count is available
-- **THEN** it appears beside the GitHub label without a signed-in or gold starred state
+- **THEN** the anonymous metric appears without a signed-in or visitor-specific starred state
+
+### Requirement: Localized header geometry is stable
+Desktop destination slots SHALL accommodate the longest supported label without wrapping, and changing locale SHALL NOT reorder navigation.
+
+#### Scenario: Switching to English
+- **WHEN** a visitor changes the locale from Chinese to English
+- **THEN** Download, Changelog, Privacy, and both platform download labels remain on one line
 
 ### Requirement: Current destination is identifiable
 Page navigation SHALL expose the current destination programmatically and visually, and every interactive control SHALL have a visible keyboard focus state.

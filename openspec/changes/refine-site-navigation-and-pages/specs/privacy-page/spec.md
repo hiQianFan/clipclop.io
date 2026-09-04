@@ -11,6 +11,13 @@ Privacy SHALL state that clipboard contents and history remain on the device, co
 - **WHEN** a visitor reads the data-handling section
 - **THEN** local storage, offline operation, deletion controls, and retention controls are clearly described
 
+### Requirement: Privacy limits are stated plainly
+Privacy SHALL distinguish operating-system disk protection from application-level database encryption, explain that ClipClop does not classify sensitive content, and describe file-preview access without implying that source files are copied or uploaded.
+
+#### Scenario: Reviewing protection limits
+- **WHEN** a visitor evaluates local data protection
+- **THEN** the page identifies both the available operating-system protections and the current application-level limits
+
 ### Requirement: Open-source auditability is disclosed
 Privacy SHALL link to the public source repository and explain that the implementation can be independently inspected.
 
@@ -18,10 +25,9 @@ Privacy SHALL link to the public source repository and explain that the implemen
 - **WHEN** a visitor activates the source link
 - **THEN** the public ClipClop repository opens
 
-### Requirement: Necessary network access reflects migration state
-Privacy SHALL identify automatic update, download, and website release-data requests, distinguish the current `clipclop.mapin.net` endpoint from the target `clipclop.io` endpoint until migration completes, and state that those requests do not contain clipboard history.
+### Requirement: Necessary network access reflects the current boundary
+Privacy SHALL identify automatic update, download, and website release-data requests, name `clipclop.io` as the current first-party endpoint without retaining obsolete distribution domains, and state that those requests do not contain clipboard history.
 
-#### Scenario: Migration is incomplete
-- **WHEN** `clipclop.io` distribution has not been deployed
-- **THEN** Privacy describes `clipclop.mapin.net` as current and `clipclop.io` as the target rather than claiming the target is live
-
+#### Scenario: Reviewing network destinations
+- **WHEN** a visitor reads the network-access section
+- **THEN** Privacy describes the current `clipclop.io` and GitHub destinations without migration-history URLs

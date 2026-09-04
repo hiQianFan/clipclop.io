@@ -26,16 +26,15 @@ The interactive demonstration SHALL represent existing app behavior, support its
 - **THEN** the selected list item, preview, descriptive copy, and scroll position remain synchronized
 
 ### Requirement: Trust statement is concise
-Home SHALL include a compact statement that ClipClop stores clipboard history locally, works offline for core operations, does not upload clipboard content, and is open source and auditable, with links to source code and Privacy.
+Home SHALL include a compact statement that ClipClop stores clipboard history locally, works offline for core operations, does not upload clipboard content, gives users control over retention limits and deletion, and is open source and auditable, with links to source code and Privacy.
 
 #### Scenario: Verifying privacy claims
 - **WHEN** a visitor reaches the trust statement
 - **THEN** they can open the source repository or Privacy page for supporting detail
 
 ### Requirement: Closing download area includes release context
-The closing download area SHALL provide both platform actions, current-version context when available, and a link to the complete Changelog without embedding the full release history on Home.
+The closing download area SHALL provide one Download action leading to `/download`, current-version context when available, and a link to the complete Changelog without embedding the full release history on Home.
 
 #### Scenario: Release data is unavailable
 - **WHEN** current-version data cannot be loaded
-- **THEN** both stable platform download actions remain available without an error trace
-
+- **THEN** the Download action remains available without an error trace

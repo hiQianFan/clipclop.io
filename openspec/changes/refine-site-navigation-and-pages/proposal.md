@@ -5,11 +5,13 @@ The current single-page navigation mixes page-level destinations with scroll sec
 ## What Changes
 
 - Replace section-based global navigation with page-level destinations for Download, Changelog, and Privacy; the persistent ClipClop brand links to Home without a duplicate Home item.
-- Keep the desktop destinations visible. Present the cached public GitHub star count beside the brand on desktop and beside More on mobile; keep page destinations and utility controls in the mobile menu.
-- Refocus Home around the hero, interactive product demonstration, a short privacy/open-source trust statement, and a closing download area with current-release context.
+- Keep the desktop destinations visible. Present a compact cached GitHub metric (mark, count, yellow star) beside the brand on desktop and beside More on mobile; keep page destinations and utility controls in a narrow mobile menu.
+- Size desktop destination slots for the longest supported locale so switching language does not wrap labels or shift the header; keep both platform download labels on one line.
+- Keep Download, Changelog, and Privacy on one stable page-title grid with matching width, vertical offset, heading scale, and introduction typography so route changes retain the same visual focus.
+- Refocus Home around the hero, interactive product demonstration, a short privacy/open-source trust statement that makes user-controlled retention and deletion explicit, and a closing download area that routes to `/download` with current-release context while the Hero retains direct platform actions.
 - Add a dedicated Download page using stable `/download/macos` and `/download/windows` endpoints without hard-coded artifact names or versions.
-- Move the full release history to a dedicated Changelog page, retaining GitHub only as the original public release record.
-- Keep Privacy as a dedicated page and align its network-boundary copy with the current-to-target Cloudflare migration state.
+- Move the full release history to a dedicated Changelog page, retaining GitHub only as the original public release record. Render cached history immediately, then refresh it on every visit so slow or failed requests do not empty the page. Render the matching Chinese or English Markdown section, omit the shared installation-note block, and expose one page-level `/download` action in the header area.
+- Keep Privacy as a dedicated page and describe only the current `clipclop.io` Cloudflare network boundary, without retaining obsolete distribution domains.
 - Add a shared footer with Download, Changelog, Privacy, GitHub, license, and copyright links; do not create empty About, Terms, Features, or Help pages.
 
 ## Capabilities
