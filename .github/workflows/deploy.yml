@@ -14,8 +14,8 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4.4.0
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: pnpm
@@ -26,6 +26,7 @@ jobs:
       - uses: treosh/lighthouse-ci-action@v12
         with:
           configPath: ./lighthouserc.json
+          runs: 3
           uploadArtifacts: true
       - uses: cloudflare/wrangler-action@v3
         with:
