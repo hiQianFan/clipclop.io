@@ -58,7 +58,9 @@ pnpm preview
 
 - 无后端服务
 - 无用户账号系统
-- 下载链接指向 GitHub Releases: `https://github.com/hiQianFan/ClipClop/releases/latest`
+- 正式下载链接使用 Cloudflare Worker/R2 稳定入口，不直接指向 GitHub Releases
+- 当前入口为 `https://clipclop.mapin.net/download/macos` 和 `https://clipclop.mapin.net/download/windows`
+- 目标入口为 `https://clipclop.io/download/macos` 和 `https://clipclop.io/download/windows`
 - GitHub stars 通过公开 API 获取: `https://api.github.com/repos/hiQianFan/ClipClop`
 
 ## File ownership
@@ -75,13 +77,14 @@ pnpm preview
 | 设计 tokens | 主仓库 `DESIGN.md` | 网站只同步,不修改 |
 | App icon | 主仓库 `src-tauri/icons/` | 网站复制使用 |
 | 产品描述文案 | 本仓库 `src/pages/index.astro` | 网站专有 |
-| 下载链接 | GitHub Releases | 网站不托管安装包 |
+| 发布资产与 manifests | 主仓库发布流程 | 生成并上传到 Cloudflare R2 |
+| 官网域名与下载路由 | 本仓库 `docs/distribution.md` | 维护 Cloudflare Worker、R2 和公开 URL 契约 |
 
 ## Context routing
 
-- **产品背景和目标**: 读取 `PROJECT.md`
-- **滚动交互设计**: 读取主仓库 `openspec/changes/build-interactive-marketing-website/design.md`
-- **实现进度**: 读取主仓库 `openspec/changes/build-interactive-marketing-website/tasks.md`
+- **产品背景、用户与设计原则**: 读取 `PRODUCT.md`
+- **网站架构**: 读取 `docs/architecture.md`
+- **域名与下载分发**: 读取 `docs/distribution.md`
 
 ## Accessibility requirements
 
@@ -99,10 +102,12 @@ pnpm preview
 
 ## Deployment
 
-- **平台**: Vercel
-- **分支**: `main` 分支自动部署到生产环境
-- **域名**: TBD (clipclop.io 或 clipclop.dev)
-- **环境变量**: 无需配置
+- **平台**: Cloudflare Workers Static Assets + R2
+- **目标分支**: `main` 分支部署到生产环境
+- **正式域名**: `clipclop.io`
+- **当前下载域名**: `clipclop.mapin.net`（迁移完成前保留）
+- **目标所有权**: `clipclop.io` 的网站、DNS、Worker、R2 binding 与路由配置全部由本仓库维护
+- **环境变量**: 静态站点无需运行时变量；Cloudflare 部署凭据只存于 CI secrets/variables
 
 构建命令: `pnpm build`  
 输出目录: `dist/`
@@ -110,4 +115,4 @@ pnpm preview
 ## Related repositories
 
 - 主仓库: `github.com/hiQianFan/ClipClop`
-- OpenSpec 提案: `ClipClop/openspec/changes/build-interactive-marketing-website/`
+- 网站变更提案: 本仓库 `openspec/changes/`

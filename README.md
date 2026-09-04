@@ -4,7 +4,8 @@
 
 交互式产品演示与下载入口 - 通过滚动驱动的 App 体验展示 ClipClop 核心功能。
 
-🌐 **官网**: [clipclop.io](https://clipclop.io) (TBD)  
+🌐 **官网**: [clipclop.io](https://clipclop.io)
+
 📦 **主仓库**: [github.com/hiQianFan/ClipClop](https://github.com/hiQianFan/ClipClop)
 
 ---
@@ -35,44 +36,18 @@ pnpm preview
 | 文档 | 内容 | 何时阅读 |
 |-----|------|---------|
 | **[AGENTS.md](./AGENTS.md)** | Agent 操作协议、命令、约束和索引 | 首次协作必读 |
-| **[PROJECT.md](./PROJECT.md)** | 产品背景、用户场景、业务规则 | 涉及功能变更时 |
+| **[PRODUCT.md](./PRODUCT.md)** | 产品定位、用户与设计原则 | 涉及产品或内容变更时 |
 | **[docs/architecture.md](./docs/architecture.md)** | 系统架构、组件、数据流、部署 | 涉及技术方案时 |
-| **主仓库 OpenSpec** | [build-interactive-marketing-website](https://github.com/hiQianFan/ClipClop/tree/main/openspec/changes/build-interactive-marketing-website) | 查看实现任务 |
+| **[docs/distribution.md](./docs/distribution.md)** | Cloudflare、R2、域名与下载契约 | 涉及部署或下载时 |
+| **[openspec/changes](./openspec/changes/)** | 本网站的待实施变更 | 评审或实施变更时 |
 
 ---
 
-## 🎨 核心设计
+## 🎨 设计与交互
 
 ### 交互模式: 滚动驱动的 App 演示
 
-**Desktop:**
-```
-┌────────────────────────────────────────┐
-│          Hero Section (100vh)          │
-│   Logo + Title + Download + Stars      │
-└────────────────────────────────────────┘
-                  ↓ 滚动
-┌────────────────────────────────────────┐
-│       完整 App 窗口 (sticky)            │
-│  ┌──────────────┬──────────────────┐  │
-│  │  Clip List   │  Preview Panel   │  │
-│  │  (左 40%)    │  (右 60%)        │  │
-│  │              │                  │  │
-│  │ 1 Text ✓     │  大字号显示内容   │  │
-│  │ 2 Link       │  + 描述文字       │  │
-│  │ 3 Code       │                  │  │
-│  │ ...          │                  │  │
-│  └──────────────┴──────────────────┘  │
-│                                        │
-│  用户滚动 → List 选中项自动切换        │
-│           → Preview 同步更新           │
-└────────────────────────────────────────┘
-```
-
-**Mobile:** Quick Panel 垂直布局
-- Panel 固定在顶部 (搜索 + clips)
-- Preview sections 下方滚动
-- 保持核心交互逻辑
+首页通过滚动驱动的 App 演示展示剪贴板历史、搜索、预览与键盘操作。演示只呈现桌面应用已有能力，不创造额外的网页交互概念。
 
 ### 设计系统
 
@@ -87,20 +62,25 @@ pnpm preview
 
 ## 🛠️ 技术栈
 
-- **Astro 4.x** - 静态站点生成
+- **Astro 7.x** - 静态站点生成
 - **Vanilla JS** - 零依赖交互
 - **CSS Variables** - 设计 tokens
 - **Intersection Observer** - 滚动检测 (原生 API)
 
-**零外部依赖** - 无 React/Vue/Tailwind/GSAP
+**零客户端框架** - 无 React/Vue/Svelte 或第三方 UI 组件库
 
 ---
 
 ## 📦 部署
 
-- **平台**: Vercel
-- **分支**: `main` 自动部署到生产环境
-- **域名**: TBD (clipclop.io 或 clipclop.dev)
+- **平台**: Cloudflare Workers Static Assets
+- **目标分支**: `main` 部署到生产环境
+- **正式域名**: `clipclop.io`
+- **安装包与更新**: Cloudflare R2
+- **当前下载入口**: `clipclop.mapin.net/download/*`
+- **目标下载入口**: `clipclop.io/download/*`
+
+域名、Cloudflare Worker、R2 分发边界和迁移要求见 [docs/distribution.md](./docs/distribution.md)。
 
 **构建产物:**
 - 目录: `dist/`
@@ -120,14 +100,7 @@ pnpm preview
 
 ## 🧪 验收标准
 
-- [ ] `pnpm build` 无错误
-- [ ] Lighthouse Performance > 90
-- [ ] Lighthouse Accessibility > 90
-- [ ] 支持 macOS/Windows 平台检测
-- [ ] GitHub stars 实时显示 (或失败降级)
-- [ ] 浅色/深色模式自动切换
-- [ ] `prefers-reduced-motion` 生效
-- [ ] 移动端 Quick Panel 布局正常
+以 [AGENTS.md](./AGENTS.md) 中的 Required validation、无障碍与浏览器要求为准，不在此处重复维护。
 
 ---
 
@@ -135,8 +108,8 @@ pnpm preview
 
 - 主仓库: [github.com/hiQianFan/ClipClop](https://github.com/hiQianFan/ClipClop)
 - 设计系统: [DESIGN.md](https://github.com/hiQianFan/ClipClop/blob/main/DESIGN.md)
-- OpenSpec 提案: [build-interactive-marketing-website](https://github.com/hiQianFan/ClipClop/tree/main/openspec/changes/build-interactive-marketing-website)
-- 实现文档: [IMPLEMENTATION.md](./IMPLEMENTATION.md)
+- 网站变更提案: [openspec/changes](./openspec/changes/)
+- 部署与下载契约: [docs/distribution.md](./docs/distribution.md)
 
 ---
 

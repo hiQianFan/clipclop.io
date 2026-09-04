@@ -10,7 +10,7 @@ People evaluating a fast clipboard-history utility for macOS or Windows, especia
 
 ## Product Purpose
 
-ClipClop's website is the official product introduction and download entry. It succeeds when visitors can experience the essential history-browsing interaction directly in the page, trust that the demonstration reflects the real app, and continue to the latest GitHub Release.
+ClipClop's website is the official product introduction and download entry. It succeeds when visitors can experience the essential history-browsing interaction directly in the page, trust that the demonstration reflects the real app, and download the current release through ClipClop's stable Cloudflare/R2 endpoints.
 
 ## Brand Personality
 
