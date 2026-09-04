@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy clipclop.io
 
 on:
   push:
