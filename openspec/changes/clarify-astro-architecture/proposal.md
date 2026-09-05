@@ -24,3 +24,4 @@ None.
 ## Impact
 
 The change affects `docs/architecture.md`, the localized layout and shared header/footer interfaces, the localized home route, the current `HomePage.astro` boundary, and files under `src/i18n/`. It adds no dependency, content framework, runtime service, public route, or client framework.
+> **Superseded:** 本文关于源码按技术类型组织、完整页面保留在 route、页面内容集中于全局 `src/i18n` 的结论，已由 [adopt-feature-based-architecture](../adopt-feature-based-architecture/proposal.md) 取代。本文仅保留为历史决策记录。

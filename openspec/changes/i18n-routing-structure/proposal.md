@@ -36,3 +36,4 @@ The current site uses client-side locale detection without URL-based language ro
 - Existing bare URLs (`/`, `/download`, etc.) will redirect to language-specific versions.
 - Does not affect client-side locale detection; localStorage and manual switching remain functional.
 - Improves SEO discoverability for English-speaking users and international markets.
+> **Superseded in part:** 本文的多语言 URL 与重定向合同继续有效，但页面实现及页面级内容位置以 [adopt-feature-based-architecture](../adopt-feature-based-architecture/proposal.md) 和 `docs/architecture.md` 为准。

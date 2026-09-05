@@ -38,7 +38,7 @@ pnpm preview
 
 **本网站的设计 tokens 必须与主仓库 `DESIGN.md` 保持一致。**
 
-当主仓库 `DESIGN.md` 更新时，需要手动同步以下内容到 `src/pages/index.astro` 的 CSS variables：
+当主仓库 `DESIGN.md` 更新时，需要手动同步以下内容到 `src/features/home/home.css` 的 CSS variables：
 - 颜色 tokens (bg-*/text-*/action-*)
 - 字体家族 (mono/sans)
 - 圆角 (radius-*)
@@ -75,7 +75,7 @@ pnpm preview
 |-----|--------|------|
 | 设计 tokens | 主仓库 `DESIGN.md` | 网站只同步,不修改 |
 | App icon | 主仓库 `src-tauri/icons/` | 网站复制使用 |
-| 产品描述文案 | 本仓库 `src/pages/index.astro` | 网站专有 |
+| 产品描述文案 | 本仓库 `src/features/*/i18n/` | 按功能与语言共同维护 |
 | 发布资产与 manifests | 主仓库发布流程 | 生成并上传到 Cloudflare R2 |
 | 官网域名与下载路由 | 本仓库 `docs/distribution.md` | 维护 Cloudflare Worker、R2 和公开 URL 契约 |
 

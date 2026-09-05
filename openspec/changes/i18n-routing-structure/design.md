@@ -39,3 +39,4 @@ Update `docs/architecture.md` and `docs/distribution.md` because the public requ
 - `pnpm build`, `pnpm test`, and `pnpm check:size` pass.
 - Generated localized HTML is checked for language, canonical, hreflang, and locale-preserving navigation.
 - Lighthouse remains a deployment gate; staging, Search Console, and changes to the separate app repository are follow-up operations outside this repository change.
+> **Superseded in part:** 本文的路由行为继续有效，但源码组织设计已由 [adopt-feature-based-architecture](../adopt-feature-based-architecture/proposal.md) 更新为 feature co-location。

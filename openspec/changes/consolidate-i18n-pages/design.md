@@ -31,3 +31,4 @@ Remove browser-side fixed-copy replacement. Client scripts retain only genuinely
 - [Astro dynamic route parameters are strings] → Validate them against the two supported locale constants in `getStaticPaths()` and shared helpers.
 - [Rich privacy copy can become awkward data] → Store it as typed sections and paragraphs, rendering known inline link/code fields explicitly.
 - [Large one-shot migration can hide content loss] → Compare all eight generated routes, canonical/hreflang fields, navigation links, and build size before completion.
+> **Superseded in part:** 本文关于页面级内容集中在全局 `src/i18n` 的目录设计已由 [adopt-feature-based-architecture](../adopt-feature-based-architecture/proposal.md) 取代；多语言静态生成行为保持不变。

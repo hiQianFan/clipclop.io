@@ -22,3 +22,4 @@ None.
 ## Impact
 
 This changes Astro page organization, shared header/footer inputs, page scripts, localized metadata generation, and related validation. Public URLs and Cloudflare download routes remain unchanged; no dependency or runtime service is added.
+> **Superseded in part:** 本文建立的共享路由行为继续有效，但页面实现和页面级 i18n 的目录位置已由 [adopt-feature-based-architecture](../adopt-feature-based-architecture/proposal.md) 改为 feature co-location。本文仅保留为历史记录。

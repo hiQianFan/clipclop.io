@@ -108,3 +108,4 @@ Language destinations remain ordinary anchors, theme controls remain buttons, an
 6. Run the production build, repository tests, generated-route checks, output-size check, and Lighthouse validation required by `AGENTS.md`.
 
 Each step is independently reviewable. Rollback is a source-level revert because no public API, stored data, or deployment resource changes.
+> **Superseded:** 本文的源码组织设计已由 [adopt-feature-based-architecture](../adopt-feature-based-architecture/proposal.md) 取代；当前事实源为 `docs/architecture.md`。
