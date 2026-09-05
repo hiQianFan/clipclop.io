@@ -66,3 +66,11 @@ test("redirects bare pages to the preferred supported language", async () => {
     assert.equal(response.headers.get("cache-control"), "no-store");
   }
 });
+
+test("defaults to English when Accept-Language is absent", async () => {
+  const bareRequest = request("/");
+  assert.equal(bareRequest.headers.has("accept-language"), false);
+  const response = await worker.fetch(bareRequest, env());
+  assert.equal(response.status, 302);
+  assert.equal(response.headers.get("location"), "https://clipclop.io/en");
+});

@@ -3,8 +3,8 @@ const LOCALIZED = new Set(["/", "/download", "/changelog", "/privacy"]);
 const NO_CACHE = "no-cache";
 const IMMUTABLE = "public, max-age=31536000, immutable";
 
-function preferredLocale(header = "") {
-  const supported = header.split(",").map((entry, order) => {
+function preferredLocale(header) {
+  const supported = (header ?? "").split(",").map((entry, order) => {
     const [tag, ...parameters] = entry.trim().toLowerCase().split(";");
     const locale = tag.split("-")[0];
     const quality = Number(parameters.find(value => value.trim().startsWith("q="))?.trim().slice(2) ?? 1);
