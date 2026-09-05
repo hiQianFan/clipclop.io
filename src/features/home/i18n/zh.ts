@@ -1,7 +1,7 @@
 export default {
-  "title": "ClipClop — 马不停贴，哒哒两步，快速粘贴",
-  "description": "ClipClop — 马不停贴，哒哒两步，快速粘贴。复制过的内容，本地永久保存，永不丢失。",
-  "ogDescription": "复制过的内容，本地永久保存，永不丢失。macOS 与 Windows 剪贴板历史工具。",
+  "title": "ClipClop — macOS 与 Windows 剪贴板历史工具",
+  "description": "ClipClop 是适用于 macOS 与 Windows 的免费开源剪贴板历史工具，可在本地保存、搜索、预览和再次粘贴复制过的内容。",
+  "ogDescription": "适用于 macOS 与 Windows 的免费开源剪贴板历史工具，在本地保存、搜索、预览和再次粘贴复制过的内容。",
   "open": "呼出",
   "paste": "粘贴",
   "tagline": "马不停贴，哒哒两步，快速粘贴。",

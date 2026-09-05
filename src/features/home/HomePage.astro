@@ -1,0 +1,57 @@
+---
+import { Icon } from "astro-icon/components";
+import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
+import type { Locale } from "../../i18n/config";
+import { home } from "./i18n";
+import "./home.css";
+
+const { locale } = Astro.props as { locale: Locale };
+const c = home[locale];
+const macDownload = "/download/macos", windowsDownload = "/download/windows";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "ClipClop",
+  description: c.description,
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "macOS, Windows",
+  url: `https://clipclop.io/${locale}`,
+  downloadUrl: `https://clipclop.io/${locale}/download`,
+  image: "https://clipclop.io/hero-logo.webp",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+---
+<LocalizedLayout locale={locale} page="home" title={c.title} description={c.description} ogDescription={c.ogDescription}>
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)}/>
+<template id="icon-browser"><Icon name="lucide:compass" size={15} stroke-width="1.8" is:inline /></template>
+<template id="icon-folder"><Icon name="lucide:folder" size={15} stroke-width="1.8" is:inline /></template>
+<template id="icon-image"><Icon name="lucide:image" size={15} stroke-width="1.8" is:inline /></template>
+<template id="icon-terminal"><Icon name="lucide:square-terminal" size={15} stroke-width="1.8" is:inline /></template>
+<template id="icon-code"><Icon name="lucide:code-2" size={15} stroke-width="1.8" is:inline /></template>
+<template id="icon-device"><Icon name="lucide:monitor-smartphone" size={15} stroke-width="1.8" is:inline /></template>
+<template id="icon-file"><Icon name="lucide:file" size={18} stroke-width="1.7" is:inline /></template>
+<main>
+  <section class="hero" id="home" aria-labelledby="hero-title"><div class="hero-inner">
+    <div class="hero-copy"><h1 id="hero-title">ClipClop</h1><div class="hero-shortcuts"><span class="shortcut-hint"><kbd id="open-shortcut">⌃⌘C</kbd> <span>{c.open}</span></span><span class="shortcut-hint"><kbd>↵</kbd> <span>{c.paste}</span></span></div><p class="tagline">{c.tagline}<br>{c.tagline2}</p></div>
+    <div class="hero-actions"><a class="primary platform-download" href={macDownload} aria-label="Download ClipClop for macOS"><Icon name="simple-icons:apple" size={18} aria-hidden="true"/><span>{c.mac}</span></a><a class="secondary-download platform-download" href={windowsDownload} aria-label="Download ClipClop for Windows"><Icon name="simple-icons:windows" size={18} aria-hidden="true"/><span>{c.windows}</span></a></div>
+    <img class="logo" src="/hero-logo.webp" width="680" height="680" alt="ClipClop cow and horse app icon">
+  </div></section>
+  <section class="showcase" id="demo" aria-label="Interactive ClipClop preview">
+    <div class="showcase-stage">
+      <aside class="story" aria-live="polite"><div class="story-track" id="story-track"><div class="story-panel is-current"><h2 set:html={c.storyTitle}/><p>{c.storyCopy}</p></div></div></aside>
+    <div class="app-frame"><div class="app-window">
+      <header class="titlebar"><div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>ClipClop</span></div></header>
+      <section class="left" aria-label="Clipboard history"><div class="search"><Icon name="lucide:search" size={15} stroke-width="1.8" aria-hidden="true"/><input id="search" type="search" placeholder={c.search} autocomplete="off" aria-label={c.search}><button class="filter-static" type="button" aria-label={c.filter}><Icon name="lucide:sliders-horizontal" size={14} aria-hidden="true"/><kbd aria-hidden="true">/</kbd></button></div><div class="clip-list" id="clip-list" role="listbox" tabindex="0" aria-label="Clipboard history"></div></section>
+      <section class="preview" aria-label="Selected clipboard item preview" aria-live="polite"><div class="preview-body"><div class="preview-content" id="preview"></div></div><div class="preview-meta"><div class="meta-content" id="facts"></div></div></section>
+      <footer class="pager"><button disabled aria-label="Previous page"><Icon name="lucide:arrow-left" size={16} aria-hidden="true"/></button><div class="page-scrubber" aria-hidden="true"><span class="page-ticks"><i></i><i></i><i></i><i></i><i></i></span></div><span class="page-count">1/1</span><button disabled aria-label="Next page"><Icon name="lucide:arrow-right" size={16} aria-hidden="true"/></button></footer>
+      <footer class="actions" aria-label="Preview-only actions"><span class="static-action" aria-disabled="true"><kbd>⌘ K</kbd> <span>{c.actions}</span></span><span class="static-action primary-static" aria-disabled="true">↵ <span>{c.paste}</span></span></footer>
+    </div></div>
+    </div><div id="steps" aria-hidden="true"></div>
+  </section>
+  <section class="home-section trust" aria-labelledby="trust-title"><h2 id="trust-title">{c.trustTitle}</h2><p>{c.trustCopy}</p><nav class="text-links" aria-label="Trust details"><a href="https://github.com/hiQianFan/ClipClop" target="_blank" rel="noopener noreferrer" >{c.source}</a><a href={`/${locale}/privacy`}>{c.privacy}</a></nav></section>
+  <section class="home-section closing" aria-labelledby="closing-title"><h2 id="closing-title">{c.closingTitle}</h2><p>{c.closingCopy}</p><div class="closing-actions"><a class="primary" href={`/${locale}/download`}><Icon name="lucide:download" size={18} aria-hidden="true"/><span>{c.download}</span></a></div><small class="closing-note"><span id="release-context">{c.release}</span> <a href={`/${locale}/changelog`}>{c.fullChangelog}</a></small></section>
+</main>
+  <script id="demo-data" type="application/json" set:html={JSON.stringify({ locale, clips: c.demo.clips, words: c.demo.words })}/>
+  <script src="./home.ts"></script>
+  <style is:global>@media (min-width: 769px) { #steps { margin-top: -30vh; } }</style>
+</LocalizedLayout>

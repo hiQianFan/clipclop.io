@@ -1,13 +1,8 @@
 ---
-import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
-import { locales, privacy, type Locale } from "../../i18n";
-import { Content as ZhPrivacy } from "../../i18n/privacy/zh.md";
-import { Content as EnPrivacy } from "../../i18n/privacy/en.md";
+import PrivacyPage from "../../features/privacy/PrivacyPage.astro";
+import { locales, type Locale } from "../../i18n/config";
+
 export function getStaticPaths() { return locales.map(locale => ({ params: { lang: locale }, props: { locale } })); }
 const { locale } = Astro.props as { locale: Locale };
-const c = privacy[locale];
-const PrivacyContent = locale === "zh" ? ZhPrivacy : EnPrivacy;
 ---
-<LocalizedLayout locale={locale} page="privacy" title={c.title} description={c.description} ogTitle={c.ogTitle} ogType="article" stylesheet="/styles/privacy.css">
-  <main class="privacy"><article><PrivacyContent/></article></main>
-</LocalizedLayout>
+<PrivacyPage locale={locale}/>

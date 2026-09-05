@@ -10,10 +10,9 @@ interface Props {
   description: string;
   ogTitle?: string;
   ogDescription?: string;
-  stylesheet: string;
   ogType?: "website" | "article";
 }
-const { locale, page, title, description, ogTitle = title, ogDescription = description, stylesheet, ogType = "website" } = Astro.props;
+const { locale, page, title, description, ogTitle = title, ogDescription = description, ogType = "website" } = Astro.props;
 const copy = site[locale];
 const suffix = page === "home" ? "" : `/${page}`;
 const canonical = `https://clipclop.io/${locale}${suffix}`;
@@ -30,7 +29,7 @@ const canonical = `https://clipclop.io/${locale}${suffix}`;
   <meta name="color-scheme" content="light dark"><meta name="theme-color" content="#17181a" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f2f3f4" media="(prefers-color-scheme: light)">
   <title>{title}</title><link rel="icon" href="/favicon.png" type="image/png"><link rel="apple-touch-icon" href="/favicon.png">
   <script is:inline>try{const theme=localStorage.getItem("clipclop-theme");if(theme==="light"||theme==="dark")document.documentElement.dataset.theme=theme}catch{}</script>
-  <link rel="stylesheet" href={stylesheet}>
+  <style is:global>html{scrollbar-gutter:stable}</style>
 </head>
 <body><SiteHeader locale={locale} current={page}/><slot/><SiteFooter locale={locale}/><slot name="scripts"/></body>
 </html>

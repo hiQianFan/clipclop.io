@@ -1,0 +1,13 @@
+---
+import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
+import type { Locale } from "../../i18n/config";
+import { changelog } from "./i18n";
+import "./changelog.css";
+const { locale } = Astro.props as { locale: Locale };
+const c = changelog[locale];
+---
+<LocalizedLayout locale={locale} page="changelog" title={c.title} description={c.description} ogTitle={c.ogTitle}>
+  <main class="changelog"><div class="head"><div><h1>{c.heading}</h1><p>{c.intro}</p></div><div class="head-actions"><a class="download-page" href={`/${locale}/download`}>{c.download}</a><a class="source" href="https://github.com/hiQianFan/ClipClop/releases" target="_blank" rel="noopener noreferrer">{c.source}</a></div></div><div id="release-list" aria-live="polite"><p class="status">{c.loading}</p></div></main>
+  <script id="changelog-data" type="application/json" set:html={JSON.stringify({ locale, latest: c.latest, none: c.none, noNotes: c.noNotes, error: c.error })}/>
+  <script src="./changelog.ts"></script>
+</LocalizedLayout>

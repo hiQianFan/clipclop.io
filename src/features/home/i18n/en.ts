@@ -1,7 +1,7 @@
 export default {
-  "title": "ClipClop — Clip-clip, clop-clop. Two steps, fast.",
-  "description": "ClipClop — Clip-clip, clop-clop. Two steps, fast. Everything you copy, saved locally forever. Never lost. Clipboard history for macOS and Windows.",
-  "ogDescription": "ClipClop — Clip-clip, clop-clop. Two steps, fast. Everything you copy, saved locally forever. Never lost. Clipboard history for macOS and Windows.",
+  "title": "ClipClop — Clipboard History Manager for macOS & Windows",
+  "description": "ClipClop is a free, open-source clipboard history manager for macOS and Windows. Save, search, preview, and paste your clipboard history locally.",
+  "ogDescription": "A free, open-source clipboard history manager for macOS and Windows. Save, search, preview, and paste locally.",
   "open": "Open",
   "paste": "Paste",
   "tagline": "Clip-clip, clop-clop. Two steps, fast.",

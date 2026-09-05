@@ -1,4 +1,4 @@
-import type { LocalizedShape } from "../config";
+import type { LocalizedShape } from "../../../i18n/config";
 import zh from "./zh";
 import enSource from "./en";
 

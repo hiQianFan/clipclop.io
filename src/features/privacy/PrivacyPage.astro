@@ -1,0 +1,14 @@
+---
+import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
+import type { Locale } from "../../i18n/config";
+import { privacy } from "./i18n";
+import { Content as ZhPrivacy } from "./i18n/zh.md";
+import { Content as EnPrivacy } from "./i18n/en.md";
+import "./privacy.css";
+const { locale } = Astro.props as { locale: Locale };
+const c = privacy[locale];
+const PrivacyContent = locale === "zh" ? ZhPrivacy : EnPrivacy;
+---
+<LocalizedLayout locale={locale} page="privacy" title={c.title} description={c.description} ogTitle={c.ogTitle} ogType="article">
+  <main class="privacy"><article><PrivacyContent/></article></main>
+</LocalizedLayout>
