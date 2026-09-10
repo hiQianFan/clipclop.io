@@ -5,14 +5,14 @@ export default {
   "open": "Open",
   "paste": "Paste",
   "tagline": "Clip-clip, clop-clop. Two steps, fast.",
-  "tagline2": "Everything you copy, saved locally forever. Never lost.",
+  "tagline2": "Clipboard history, saved locally and ready to reuse.",
   "mac": "Download for macOS",
   "windows": "Download for Windows",
   "actions": "Actions",
   "search": "Search clipboard…",
   "filter": "Filter history",
-  "storyTitle": "Open source<br>Privacy you can verify",
-  "storyCopy": "The complete codebase is public. ClipClop needs no account and has no cloud sync or telemetry; aside from optional update checks, its core features run locally and offline.",
+  "storyTitle": "Copied before.<br>Ready to find again.",
+  "storyCopy": "Find copied text, links, images, and files in your history. Search, preview, and paste them again.",
   "trustTitle": "Your clipboard history is yours to manage.",
   "trustCopy": "Clipboard history stays on your device and is not uploaded to the cloud. You choose how long to keep it and how many items to save, and you can delete individual entries or clear everything at any time. ClipClop is fully open source, so its data and network boundaries can be inspected.",
   "source": "View source code",
@@ -207,10 +207,29 @@ export default {
       }
     ],
     "words": {
+      "historyTitle": "Copied before.\nReady to find again.",
+      "historyCopy": "Find copied text, links, images, and files in your history. Search, preview, and paste them again.",
+      "favoritesTitle": "Keep favorites\nclose at hand",
+      "favoritesCopy": "Save links, code, and images to favorites. Find them together, ready to paste again.",
+      "viewSelected": "View selected content",
+      "openLink": "Open in default browser",
+      "copyPlain": "Copy as plain text",
+      "favorite": "Add to favorites",
+      "unfavorite": "Remove from favorites",
       "preview": "Press Space for system preview",
       "empty": "No matching clipboard items",
       "first": "First copied",
-      "recent": "Last used"
+      "recent": "Last used",
+      "scope": "History scope",
+      "all": "All",
+      "favorites": "Favorites",
+      "settings": "Settings",
+      "updates": "Check for updates",
+      "about": "About ClipClop",
+      "quit": "Quit ClipClop",
+      "copy": "Copy to clipboard",
+      "pastePlain": "Paste as plain text",
+      "delete": "Delete from ClipClop…"
     }
   }
 } as const;

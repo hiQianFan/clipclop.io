@@ -5,14 +5,14 @@ export default {
   "open": "呼出",
   "paste": "粘贴",
   "tagline": "马不停贴，哒哒两步，快速粘贴。",
-  "tagline2": "复制过的内容，本地永久保存，永不丢失。",
+  "tagline2": "剪贴历史，本地保存，随手取用。",
   "mac": "下载 macOS 版",
   "windows": "下载 Windows 版",
   "actions": "操作",
   "search": "搜索剪贴板…",
   "filter": "筛选历史记录",
-  "storyTitle": "代码全开源<br>隐私可审查",
-  "storyCopy": "完整代码和仓库公开可查。ClipClop 无需账号，没有云同步或遥测；除可关闭的更新检查外，核心功能均在本机离线运行。",
+  "storyTitle": "复制过的，<br>随时找回",
+  "storyCopy": "复制过的文本、链接、图片和文件，都在历史列表中。搜索、预览，找到后再次粘贴。",
   "trustTitle": "你的剪贴历史，完全由你管理。",
   "trustCopy": "剪贴历史保存在本地设备，不上传云端。保留多久、最多保存多少条，都由你设置；你也可以随时删除单条记录或清空全部历史。ClipClop 完全开源，数据与网络边界可供审查。",
   "source": "查看源代码",
@@ -207,10 +207,29 @@ export default {
       }
     ],
     "words": {
+      "historyTitle": "复制过的，\n随时找回",
+      "historyCopy": "复制过的文本、链接、图片和文件，都在历史列表中。搜索、预览，找到后再次粘贴。",
+      "favoritesTitle": "常用内容\n收藏后随手取用",
+      "favoritesCopy": "链接、代码、图片，收藏后集中查看。下次需要，直接找到并粘贴。",
+      "viewSelected": "查看所选内容",
+      "openLink": "在默认浏览器中打开",
+      "copyPlain": "复制为纯文本",
+      "favorite": "收藏",
+      "unfavorite": "取消收藏",
       "preview": "按 Space 使用系统预览",
       "empty": "没有匹配的剪贴板项目",
       "first": "首次复制",
-      "recent": "最近使用"
+      "recent": "最近使用",
+      "scope": "记录范围",
+      "all": "全部",
+      "favorites": "收藏",
+      "settings": "设置",
+      "updates": "检查更新",
+      "about": "关于 ClipClop",
+      "quit": "退出 ClipClop",
+      "copy": "复制到剪贴板",
+      "pastePlain": "纯文本粘贴",
+      "delete": "从 ClipClop 删除…"
     }
   }
 } as const;
