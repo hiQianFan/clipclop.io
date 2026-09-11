@@ -27,7 +27,7 @@ let favoriteOnly = false;
 const stories = [
   { title: words.historyTitle, copy: words.historyCopy, clipIndex: 0, favorites: false },
   { title: words.favoritesTitle, copy: words.favoritesCopy, clipIndex: 0, favorites: true },
-  ...[1, 2, 3, 4, 5, 6, 7, 0, 8, 9].map((index) => ({
+  ...[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => ({
     title: clips[index].title, copy: clips[index].copy, clipIndex: index, favorites: false,
   })),
 ];
@@ -329,7 +329,8 @@ function updateStory() {
   storyRaf = 0;
   const position = storyPosition();
   if (!position) return;
-  const raw = Math.max(0, Math.min(stories.length - 1, position.raw));
+  if (position.raw < 0 || position.raw > stories.length - 1) return;
+  const raw = position.raw;
   storyTrack.style.setProperty("--story-offset", `${-(reduceMotion.matches ? Math.round(raw) : raw) * storyTrack.parentElement!.clientHeight}px`);
   const next = Math.round(raw);
   followScrollStory(next);
