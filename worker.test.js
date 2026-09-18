@@ -30,14 +30,26 @@ test("rejects unsafe or missing download metadata", async () => {
   }
 });
 
-test("serves updater and immutable releases from R2", async () => {
+test("serves updater, release feed, and immutable releases from R2", async () => {
   const runtime = env({
     "latest.json": object("{}"),
+    "releases.json": object({ schemaVersion: 1, releases: [] }),
     "releases/v1/ClipClop.dmg": object("binary", "application/x-apple-diskimage"),
   });
   const latest = await worker.fetch(request("/latest.json"), runtime);
   assert.equal(latest.headers.get("cache-control"), "no-cache");
   assert.equal(await latest.text(), "{}");
+  const feed = await worker.fetch(request("/releases.json"), runtime);
+  assert.equal(feed.headers.get("cache-control"), "public, max-age=300");
+  assert.equal(feed.headers.get("access-control-allow-origin"), "*");
+  assert.deepEqual(await feed.json(), { schemaVersion: 1, releases: [] });
+  const options = await worker.fetch(request("/releases.json", "OPTIONS"), runtime);
+  assert.equal(options.status, 204);
+  assert.equal(options.headers.get("access-control-allow-origin"), "*");
+  const unavailable = await worker.fetch(request("/releases.json"), { ...runtime, RELEASES: { get: async () => { throw new Error("R2 down"); } } });
+  assert.equal(unavailable.status, 503);
+  assert.equal(unavailable.headers.get("cache-control"), "no-store");
+  assert.equal(unavailable.headers.get("access-control-allow-origin"), "*");
   const release = await worker.fetch(request("/releases/v1/ClipClop.dmg", "HEAD"), runtime);
   assert.equal(release.headers.get("cache-control"), "public, max-age=31536000, immutable");
   assert.equal(release.headers.get("content-type"), "application/x-apple-diskimage");

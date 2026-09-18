@@ -21,6 +21,7 @@ clipclop.io (Cloudflare Custom Domain)
       ├── static page or asset ──► Workers Static Assets
       ├── /download/* ──────────► Download Worker logic
       ├── /latest.json ─────────► R2 object
+      ├── /releases.json ───────► R2 release feed
       └── /releases/* ──────────► R2 immutable object
 ```
 
@@ -32,6 +33,7 @@ clipclop.io (Cloudflare Custom Domain)
 - `https://clipclop.io/download/macos`：重定向到最新 macOS Universal DMG。
 - `https://clipclop.io/download/windows`：重定向到最新 Windows x64 NSIS 安装程序。
 - `https://clipclop.io/latest.json`：Tauri 自动更新 manifest。
+- `https://clipclop.io/releases.json`：App 设置页和官网更新日志使用的发布记录。
 - `https://clipclop.io/releases/v<version>/...`：不可变版本文件。
 
 因为官网与下载均由同一个 Cloudflare Worker 承载，不需要 `download.clipclop.io`。单域名路径结构更短，也不存在跨托管平台的路由冲突。
@@ -58,7 +60,7 @@ App 主仓库继续负责：
 
 - 构建 macOS 与 Windows 发布资产；
 - 生成并验证更新签名；
-- 生成 `downloads.json` 与 `latest.json`；
+- 生成 `downloads.json`、`latest.json` 与 `releases.json`；
 - 上传版本文件与 metadata 到 R2；
 - 发布 GitHub Release。
 
@@ -69,6 +71,7 @@ App 主仓库继续负责：
 - `/download/macos` 和 `/download/windows` 读取 `downloads.json`，只接受以 `/releases/` 开头的 bucket 内路径，然后返回 `302`。
 - `/`、`/download`、`/changelog` 和 `/privacy` 按 `Accept-Language` 返回 `302` 到 `/zh/*` 或 `/en/*`，并设置 `Vary: Accept-Language` 与 `Cache-Control: no-store`；不支持的语言默认英文。
 - `downloads.json`、`latest.json` 和下载重定向使用 `no-cache`。
+- `/releases.json` 使用 `public, max-age=300`，并允许 App 跨域读取。
 - `/releases/v<version>/...` 使用一年期 `public, max-age=31536000, immutable`。
 - 下载 metadata 无效或 R2 不可用时返回 `503`，不得跳转到未经验证的外部地址。
 - 官网 CI 只保存 `CLOUDFLARE_ACCOUNT_ID` repository variable 和 `CLOUDFLARE_API_TOKEN` production environment secret；该 token 只授予 Worker 部署所需权限，不授予 R2 写权限。

@@ -10,5 +10,5 @@ export default {
   "latest": "Latest",
   "none": "No public releases yet.",
   "noNotes": "No release notes were provided.",
-  "error": "Release history is temporarily unavailable. You can still use the <a href=\"./download\">download page</a>."
+  "error": "Release history is temporarily unavailable. <a href=\"https://github.com/hiQianFan/ClipClop/releases\" target=\"_blank\" rel=\"noopener noreferrer\">View original releases on GitHub</a>."
 } as const;

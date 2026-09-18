@@ -10,5 +10,5 @@ export default {
   "latest": "最新版本",
   "none": "暂无公开版本。",
   "noNotes": "此版本没有附加更新说明。",
-  "error": "暂时无法读取更新日志。你仍然可以前往 <a href=\"./download\">下载页面</a>。"
+  "error": "暂时无法读取更新日志。<a href=\"https://github.com/hiQianFan/ClipClop/releases\" target=\"_blank\" rel=\"noopener noreferrer\">前往 GitHub 查看原始发布记录</a>。"
 } as const;

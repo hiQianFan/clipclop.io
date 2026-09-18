@@ -349,15 +349,17 @@ updateMobileOverlap();
 updateFrame();
 updateStory();
 
-const releaseCacheKey = "clipclop-latest-release";
+const releaseCacheKey = "clipclop-latest-release-v1";
 const releaseMaxAge = 21_600_000;
 let cachedRelease: { tag?: string; time?: number } | undefined;
 try { cachedRelease = JSON.parse(localStorage.getItem(releaseCacheKey) || "null"); } catch {}
+if (cachedRelease?.tag) releaseContext.textContent = data.locale === "zh" ? `当前稳定版 ${cachedRelease.tag}，版本说明见` : `Current stable release ${cachedRelease.tag}. See the`;
 if (!cachedRelease || Date.now() - Number(cachedRelease.time) > releaseMaxAge) {
-  fetch("https://api.github.com/repos/hiQianFan/ClipClop/releases/latest")
+  fetch("/releases.json")
     .then((response) => { if (!response.ok) throw new Error(); return response.json(); })
-    .then((release) => {
-      const releaseTag = release.tag_name;
+    .then((feed) => {
+      const releaseTag = feed?.releases?.[0]?.version;
+      if (typeof releaseTag !== "string") throw new Error();
       releaseContext.textContent = data.locale === "zh" ? `当前稳定版 ${releaseTag}，版本说明见` : `Current stable release ${releaseTag}. See the`;
       try { localStorage.setItem(releaseCacheKey, JSON.stringify({ tag: releaseTag, time: Date.now() })); } catch {}
     })
