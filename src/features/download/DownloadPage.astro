@@ -1,12 +1,113 @@
 ---
+import { Icon } from "astro-icon/components";
 import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
 import type { Locale } from "../../i18n/config";
 import { download } from "./i18n";
 import "./download.css";
 const { locale } = Astro.props as { locale: Locale };
 const c = download[locale];
+const platforms = [
+  { id: "mac", href: "/download/macos", icon: "simple-icons:apple", copy: c.mac, steps: c.macSteps },
+  { id: "windows", href: "/download/windows", icon: "simple-icons:windows", copy: c.windows, steps: c.windowsSteps },
+];
+// Same eyes as the home hero's flat layer, nudged toward the download button.
+const eyes = [[237.5, 566, -8, -17], [424.5, 544.5, -9, -17], [614.5, 534, -2.5, -19], [806, 564.5, -2.5, -19]];
 ---
 <LocalizedLayout locale={locale} page="download" title={c.title} description={c.description}>
-  <main class="download"><h1>{c.heading}</h1><p class="intro">{c.intro}</p><div class="platforms"><article class="platform" data-platform="mac"><span class="preferred">{c.preferred}</span><h2>macOS</h2><p>{c.macDetail}</p><p class="install-note">{c.macNote}</p><a class="button" href="/download/macos">{c.macAction}</a></article><article class="platform" data-platform="windows"><span class="preferred">{c.preferred}</span><h2>Windows</h2><p>{c.windowsDetail}</p><p class="install-note">{c.windowsNote}</p><a class="button" href="/download/windows">{c.windowsAction}</a></article></div><p class="note">{c.noteBefore} <a href={`/${locale}/changelog`}>{c.noteLink}</a>。</p></main>
-  <script slot="scripts" is:inline>const platform=/Windows/i.test(navigator.userAgent)?"windows":/Mac|iPhone|iPad/i.test(navigator.userAgent)?"mac":null;if(platform)document.querySelector(`[data-platform="${platform}"]`)?.classList.add("is-preferred");</script>
+  <main class="download" data-platform="mac">
+    <section class="dl-hero" aria-labelledby="dl-title">
+      <div class="dl-copy">
+        <h1 id="dl-title">{c.heading}</h1>
+        <p class="dl-intro">{c.intro}</p>
+        <p class="dl-release" id="dl-release" hidden></p>
+        <div class="dl-actions">
+          <div class="dl-buttons">{platforms.map((p) => <a class="dl-button" data-for={p.id} href={p.href}><Icon name={p.icon} size={18} aria-hidden="true"/><span>{p.copy.action}</span></a>)}</div>
+          <p class="dl-detail">{platforms.map((p) => <span data-for={p.id}>{p.copy.detail}</span>)}</p>
+          <p class="dl-links">
+            <a href={`/${locale}/changelog`}>{c.changelog}</a>
+          </p>
+          <p class="dl-mobile">{c.mobile} <button type="button" id="dl-copy" data-done={c.copied}>{c.copyLink}</button></p>
+        </div>
+      </div>
+      <div class="dl-mascot" aria-hidden="true">
+        <img src="/mascot-flat.webp" width="1040" height="711" alt="">
+        <svg viewBox="0 140 1024 700"><g class="dl-eyes">{eyes.map(([x, y, gx, gy]) => <g><ellipse cx={x} cy={y} rx="34.5" ry="41"/><circle cx={x + gx} cy={y + gy} r="10.5"/></g>)}</g></svg>
+      </div>
+    </section>
+
+    <section class="install" id="install" aria-labelledby="install-title">
+      <h2 id="install-title">{c.installTitle}</h2>
+      <p class="install-started" id="install-started" role="status"></p>
+      <div class="install-tabs" role="tablist" aria-label={c.tabs}>
+        {platforms.map((p) => <button type="button" role="tab" id={`tab-${p.id}`} aria-controls={`steps-${p.id}`} data-tab={p.id}><Icon name={p.icon} size={15} aria-hidden="true"/>{p.copy.name}</button>)}
+      </div>
+      {platforms.map((p) => (
+        <ol class="steps" role="tabpanel" id={`steps-${p.id}`} aria-labelledby={`tab-${p.id}`} data-panel={p.id}>
+          {p.steps.map((step, index) => (
+            <li class="step">
+              <div class="step-copy"><span class="step-num">{index + 1}</span><h3>{step.title}</h3><p>{step.body}</p></div>
+              <div class={`art art-${p.id}-${index + 1}`} aria-hidden="true">
+                {p.id === "mac" && index === 0 && <><span class="art-app"><img src="/favicon.png" alt=""/>ClipClop</span><span class="art-arrow">→</span><span class="art-folder"><Icon name="lucide:folder" size={34}/>{c.art.applications}</span></>}
+                {p.id === "mac" && index === 1 && <div class="art-window"><span class="art-lights"><i></i><i></i><i></i></span><p><Icon name="lucide:shield" size={16}/>{c.art.blocked}</p><span class="art-button is-target">{c.art.openAnyway}</span></div>}
+                {index === 2 && <div class="art-keys">{(p.id === "mac" ? ["⌃", "⌘", "C"] : ["Ctrl", "Alt", "C"]).map((key) => <kbd>{key}</kbd>)}<span class="art-arrow">→</span><kbd>↵</kbd><span>{c.art.paste}</span></div>}
+                {p.id === "windows" && index === 0 && <span class="art-file"><Icon name="lucide:package" size={34}/>ClipClop_…_x64-setup.exe</span>}
+                {p.id === "windows" && index === 1 && <div class="art-smartscreen"><strong>{c.art.protected}</strong><span class="art-link is-target">{c.art.moreInfo}</span><span class="art-button is-target">{c.art.runAnyway}</span></div>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      ))}
+    </section>
+
+    <section class="why" aria-labelledby="why-title">
+      <h2 id="why-title">{c.whyTitle}</h2>
+      <p>{c.whyBody}</p>
+      <p class="why-links"><a href="https://github.com/hiQianFan/ClipClop" target="_blank" rel="noopener noreferrer">{c.source}</a><a href={`/${locale}/privacy`}>{c.privacy}</a></p>
+    </section>
+  </main>
+  <script slot="scripts" is:inline define:vars={{ copy: { latest: c.latest, released: c.released, started: c.started }, locale }}>
+    const main = document.querySelector(".download");
+    const ua = navigator.userAgent;
+    const mobile = /iPhone|iPad|Android/i.test(ua) || (navigator.maxTouchPoints > 1 && /Mac/.test(ua) && innerWidth < 1024);
+    let platform = /Windows/i.test(ua) ? "windows" : "mac";
+    const params = new URLSearchParams(location.search);
+    if (params.get("started") === "mac" || params.get("started") === "windows") platform = params.get("started");
+    main.dataset.platform = platform;
+    if (mobile) main.dataset.mobile = "";
+    const tabs = [...document.querySelectorAll("[data-tab]")];
+    const show = (id) => {
+      tabs.forEach((tab) => { const on = tab.dataset.tab === id; tab.setAttribute("aria-selected", String(on)); tab.tabIndex = on ? 0 : -1; });
+      document.querySelectorAll("[data-panel]").forEach((panel) => { panel.hidden = panel.dataset.panel !== id; });
+    };
+    show(platform);
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => show(tab.dataset.tab));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        const next = tabs[(tabs.indexOf(tab) + 1) % tabs.length];
+        show(next.dataset.tab); next.focus();
+      });
+    });
+    // After a download starts the page stays put, so walk the visitor to the install steps.
+    const started = (id) => {
+      show(id);
+      main.dataset.started = "";
+      document.querySelector("#install-started").textContent = copy.started;
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setTimeout(() => document.querySelector("#install").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }), 150);
+    };
+    document.querySelectorAll(".dl-button").forEach((link) => link.addEventListener("click", () => started(link.dataset.for)));
+    if (params.has("started")) started(platform);
+    document.querySelector("#dl-copy").addEventListener("click", (event) => {
+      navigator.clipboard?.writeText(location.origin + location.pathname).then(() => { event.target.textContent = event.target.dataset.done; });
+    });
+    fetch("/releases.json").then((response) => response.ok ? response.json() : null).then((feed) => {
+      const release = feed?.releases?.[0];
+      if (!release?.version) return;
+      const date = new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en", { dateStyle: "medium" }).format(new Date(release.publishedAt));
+      const line = document.querySelector("#dl-release");
+      line.textContent = `${copy.latest} ${release.version} · ${copy.released} ${date}`;
+      line.hidden = false;
+    }).catch(() => {});
+  </script>
 </LocalizedLayout>
