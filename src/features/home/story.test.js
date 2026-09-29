@@ -31,17 +31,17 @@ test('favorites chapter enters, respects manual scope, exits and re-enters', () 
   `, { assert });
 });
 
-test('each record navigates to its content chapter, never the favorites chapter', () => {
+test('story is at most five chapters and records never jump to the favorites chapter', () => {
   const source = readFileSync(new URL('./home.ts', import.meta.url), 'utf8');
   const definition = source.slice(source.indexOf('const stories = ['), source.indexOf('let activeStory'));
   runInNewContext(`
     const words = {};
     const clips = Array.from({ length: 10 }, () => ({}));
     ${definition}
+    assert.ok(stories.length <= 5);
     for (let index = 0; index < clips.length; index++) {
       const target = stories.findIndex((story, storyIndex) => storyIndex >= 2 && story.clipIndex === index);
-      assert.ok(target >= 2);
-      assert.equal(stories[target].favorites, false);
+      if (target >= 0) assert.equal(stories[target].favorites, false);
     }
     assert.equal(stories[1].favorites, true);
   `, { assert });

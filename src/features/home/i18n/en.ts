@@ -14,14 +14,39 @@ export default {
   "storyTitle": "Copied before.<br>Ready to find again.",
   "storyCopy": "Find copied text, links, images, and files in your history. Search, preview, and paste them again.",
   "trustTitle": "Your clipboard history is yours to manage.",
-  "trustCopy": "Clipboard history stays on your device and is not uploaded to the cloud. You choose how long to keep it and how many items to save, and you can delete individual entries or clear everything at any time. ClipClop is fully open source, so its data and network boundaries can be inspected.",
+  "trustCopy": "Don't take our word for it. Every line below can be checked against the source code.",
+  "trustFacts": [
+    ["Clipboard content", "Stays on this device, never uploaded"],
+    ["Account and sync", "No account, no cloud sync"],
+    ["Telemetry and ads", "None"],
+    ["Network", "Update checks only, at most every 24 hours, can be turned off"],
+    ["Retention", "1 day to forever, with an optional item limit"],
+    ["Source code", "AGPL-3.0, fully public"]
+  ],
+  "faqTitle": "Questions",
+  "faq": [
+    ["Is it free?", "Yes, and fully open source under AGPL-3.0. No account required."],
+    ["Why does my system warn me when installing?", "The installers are not yet signed with an Apple Developer ID or Windows Authenticode certificate. On macOS, approve the app in Privacy & Security; on Windows you may see an “Unknown publisher” or SmartScreen prompt."],
+    ["Which system permissions does it need?", "On macOS, optional auto-paste uses the Accessibility permission. If you decline, the selected item still goes to the system clipboard so you can paste it yourself. File previews need a separate Full Disk Access permission that you can skip or revoke at any time."],
+    ["Is my clipboard history secure?", "History lives in a local database protected by your system account and disk encryption such as FileVault or BitLocker; ClipClop does not add its own encryption. It does not judge whether content is sensitive, so don't use it as a password vault."],
+    ["How do I remove all my data?", "Delete single entries or clear all history inside the app. To remove every local file, quit ClipClop and delete the app data directory for com.clipclop.desktop."]
+  ],
   "source": "View source code",
   "privacy": "Read the privacy notice",
   "closingTitle": "Keep everything you copy within reach.",
   "closingCopy": "Download ClipClop with no account required. Open your clipboard history with one shortcut.",
   "download": "Download ClipClop",
   "release": "For the current version and release history, see the",
-  "fullChangelog": "full changelog",
+  "summon": {
+    "title": "One shortcut. Back at your cursor.",
+    "copy": "Open your history from any app, pick an item with the arrow keys, and press Enter to paste it where your cursor is. The window gets out of the way.",
+    "scenes": [
+      { "clip": 0, "file": "message.txt", "prompt": "Here's the repo:\n" },
+      { "clip": 2, "file": "greet.js", "prompt": "function greet() {\n  " },
+      { "clip": 6, "file": "tokens.css", "prompt": ":root {\n  --text-strong: " }
+    ]
+  },
+  "fullChangelog":"full changelog",
   "demo": {
     "clips": [
       {

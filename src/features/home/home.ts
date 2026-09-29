@@ -27,7 +27,8 @@ let favoriteOnly = false;
 const stories = [
   { title: words.historyTitle, copy: words.historyCopy, clipIndex: 0, favorites: false },
   { title: words.favoritesTitle, copy: words.favoritesCopy, clipIndex: 0, favorites: true },
-  ...[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => ({
+  // Only keyboard, image preview and local-only get chapters; other rows stay explorable without one.
+  ...[1, 4, 7].map((index) => ({
     title: clips[index].title, copy: clips[index].copy, clipIndex: index, favorites: false,
   })),
 ];
@@ -54,7 +55,7 @@ const fileIcon = document.querySelector<HTMLTemplateElement>("#icon-file")?.inne
 const starIcon = document.querySelector<HTMLTemplateElement>("#icon-star")?.innerHTML ?? "";
 
 if (openShortcut && !/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) {
-  openShortcut.textContent = "Ctrl+Alt+C";
+  document.querySelectorAll("#open-shortcut, .open-shortcut").forEach((key) => key.textContent = "Ctrl+Alt+C");
 }
 
 function sourceIcon(name: string) {
@@ -341,6 +342,197 @@ function requestStoryUpdate() {
 addEventListener("scroll", requestStoryUpdate, { passive: true });
 addEventListener("resize", requestStoryUpdate);
 steps.innerHTML = stories.map((_: unknown, index: number) => `<div class="scroll-step" data-index="${index}"></div>`).join("");
+
+// Summon scene: auto-plays open → select → paste while in view; reduced motion shows the pasted result only.
+const summonRows = [5, 0, 2, 6, 3];
+const summonStage = document.querySelector<HTMLElement>("#summon-stage")!;
+const summonWindow = document.querySelector<HTMLElement>("#summon-window")!;
+const summonList = document.querySelector<HTMLElement>("#summon-list")!;
+const summonPreview = document.querySelector<HTMLElement>("#summon-preview")!;
+const editorName = document.querySelector<HTMLElement>("#editor-name")!;
+const editorBody = document.querySelector<HTMLElement>("#editor-body")!;
+let summonRun = 0;
+
+function summonSelect(position: number) {
+  summonList.innerHTML = summonRows.map((index, row) => `<div class="clip-row" role="option" aria-selected="${row === position}"><span class="num">${row + 1}</span>${leadIcon(clips[index])}${clips[index].type === "image" ? "" : `<span class="snippet">${escapeHtml(clips[index].text)}</span>`}</div>`).join("");
+  summonPreview.textContent = clips[summonRows[position]].text;
+}
+
+function summonEditor(scene: any, pasted = "") {
+  editorName.textContent = scene.file;
+  editorBody.innerHTML = `${escapeHtml(scene.prompt)}${pasted ? `<span class="pasted">${escapeHtml(pasted)}</span>` : ""}<span class="caret"></span>`;
+}
+
+async function playSummon(run: number) {
+  const wait = (ms: number) => new Promise<void>((resolve, reject) => setTimeout(() => run === summonRun ? resolve() : reject(), ms));
+  const press = async (key: string, hold = 260) => {
+    const chip = document.querySelector<HTMLElement>(`#summon-keys [data-key="${key}"]`)!;
+    chip.classList.add("is-down");
+    await wait(hold).finally(() => chip.classList.remove("is-down"));
+  };
+  try {
+    for (let n = 0; ; n = (n + 1) % data.scenes.length) {
+      const scene = data.scenes[n];
+      const target = summonRows.indexOf(scene.clip);
+      summonEditor(scene);
+      summonSelect(0);
+      await wait(1100);
+      await press("open");
+      summonWindow.classList.add("is-open");
+      await wait(650);
+      for (let row = 1; row <= target; row++) {
+        await press("down", 180);
+        summonSelect(row);
+        await wait(240);
+      }
+      await wait(450);
+      await press("enter");
+      summonWindow.classList.remove("is-open");
+      await wait(200);
+      summonEditor(scene, clips[scene.clip].text);
+      await wait(2600);
+    }
+  } catch {
+    summonWindow.classList.remove("is-open");
+  }
+}
+
+summonEditor(data.scenes[0], clips[data.scenes[0].clip].text);
+summonSelect(0);
+new IntersectionObserver(([entry]) => {
+  summonRun++;
+  if (entry.isIntersecting && !reduceMotion.matches) playSummon(summonRun);
+}, { threshold: .35 }).observe(summonStage);
+
+// Hero entrance: hoofprints walk from the mascot to the title ("clip, clop") —
+// right → left on desktop, bottom → top on mobile — and the last pair lands as the title mark.
+function stompHero() {
+  const heroSection = hero.closest<HTMLElement>(".hero")!;
+  const mark = document.querySelector<HTMLElement>(".hero-mark");
+  const from = document.querySelector<HTMLElement>(".mascot");
+  if (!mark || !from || reduceMotion.matches || scrollY > heroSection.offsetHeight / 2 || heroSection.classList.contains("is-stomping")) return;
+  const trail = document.createElement("div");
+  trail.className = "hoof-trail";
+  trail.setAttribute("aria-hidden", "true");
+  heroSection.prepend(trail);
+  heroSection.classList.add("is-stomping");
+  const box = heroSection.getBoundingClientRect(), source = from.getBoundingClientRect(), target = mark.getBoundingClientRect();
+  const mobile = innerWidth <= 768;
+  const sx = (mobile ? source.left + source.width / 2 : source.left + source.width * .04) - box.left, sy = source.top + source.height * (mobile ? .2 : .5) - box.top;
+  const ex = target.left + target.width / 2 - box.left, ey = target.top + target.height / 2 - box.top;
+  const dx = ex - sx, dy = ey - sy, distance = Math.hypot(dx, dy) || 1;
+  const nx = -dy / distance, ny = dx / distance; // unit normal: left/right feet sit on either side
+  const size = mobile ? 34 : Math.max(40, Math.min(64, box.width / 22));
+  const steps = Math.max(4, Math.min(12, Math.round(distance / (size * 1.25))));
+  const tilt = Math.max(-25, Math.min(25, ((Math.atan2(dy, dx) * 180 / Math.PI + 90 + 540) % 360) - 180)); // lean toward the walk
+  const at = (i: number) => Math.floor(i / 2) * 400 + (i % 2) * 140;
+  const stamp = (el: HTMLElement, base: string, delay: number, opacity: number) => el.animate([
+    { opacity: 0, transform: `${base} scale(1.4)` },
+    { opacity, transform: `${base} scale(1)` },
+  ], { duration: 220, delay, easing: "cubic-bezier(.16,1,.3,1)", fill: "both" });
+  const place = (width: number, height: number, className = "clop") => {
+    const el = document.createElement("i");
+    el.className = `hoof ${className}`;
+    el.style.width = `${width}px`;
+    el.style.height = `${height}px`;
+    trail.append(el);
+    return el;
+  };
+  for (let i = 0; i < steps; i++) {
+    const t = i / steps, side = i % 2 ? 1 : -1;
+    const bump = Math.sin(t * Math.PI) * distance * .08; // a gentle arc instead of a ruler line
+    const x = sx + dx * t + nx * (bump + side * size * .38), y = sy + dy * t + ny * (bump + side * size * .38);
+    const print = place(size * .82, size);
+    const base = `translate(${x - size * .41}px, ${y - size / 2}px) rotate(${tilt + side * 8}deg)${side < 0 ? " scaleX(-1)" : ""}`; // left foot = mirrored right hoof
+    stamp(print, base, at(i), .2);
+    print.animate([{ opacity: .2 }, { opacity: 0 }], { duration: 600, delay: at(steps) + 700 + i * 50, fill: "forwards" });
+  }
+  const markSize = mark.offsetWidth;
+  const landing = place(markSize, markSize, "both");
+  stamp(landing, `translate(${ex - markSize / 2}px, ${ey - markSize / 2}px) rotate(16deg)`, at(steps), .38).finished.then(() => {
+    heroSection.classList.remove("is-stomping");
+    landing.remove();
+    setTimeout(() => trail.remove(), 1400);
+  }).catch(() => {
+    heroSection.classList.remove("is-stomping");
+    trail.remove();
+  });
+}
+stompHero();
+
+// Mascot: one character in four styles (flat → clay → mono → pixel) that rotate every 8s while in view.
+// Every style behaves the same: eyes spring-follow the pointer, blink (also on click or copy),
+// and now and then break into a smile on their own (always while a download link is hovered or focused).
+const mascot = document.querySelector<HTMLElement>(".mascot");
+if (mascot) {
+  const layers = [...mascot.querySelectorAll<SVGSVGElement>(".mascot-layer")].map((svg) => ({
+    svg,
+    width: svg.viewBox.baseVal.width,
+    grid: Number(svg.dataset.grid) || 0,
+    eyes: [...svg.querySelectorAll<SVGGElement>(".eye")],
+    smiles: [...svg.querySelectorAll<SVGPathElement>(".smile")],
+  }));
+  const styles = layers.map((layer) => layer.svg.dataset.layer!);
+  const load = () => mascot.querySelectorAll<SVGImageElement>("image[data-href]:not([href])").forEach((image) => image.setAttribute("href", image.dataset.href!));
+  let inView = true, downloading = false, blinkAt = performance.now() + 1800;
+  (window.requestIdleCallback ?? setTimeout)(load);
+  if (!reduceMotion.matches) setInterval(() => {
+    if (!inView || document.hidden) return;
+    mascot.dataset.style = styles[(styles.indexOf(mascot.dataset.style!) + 1) % styles.length];
+  }, 8000);
+  const blinkNow = () => { blinkAt = performance.now(); };
+  mascot.addEventListener("click", blinkNow);
+  document.addEventListener("copy", blinkNow);
+  document.querySelectorAll<HTMLElement>(".platform-download, .closing .primary").forEach((link) => {
+    for (const [event, value] of [["pointerenter", true], ["focus", true], ["pointerleave", false], ["blur", false]] as const) link.addEventListener(event, () => { downloading = value; });
+  });
+
+  let raf = 0;
+  if (!reduceMotion.matches) {
+    const spring = 16;
+    let x = 0, y = 0, vx = 0, vy = 0, tx = 0, ty = 0, joy = 0, last = 0, smileAt = performance.now() + 4000, smileUntil = 0;
+    const ramp = (from: number, to: number, value: number) => { const t = Math.max(0, Math.min(1, (value - from) / (to - from))); return t * t * (3 - 2 * t); };
+    const tick = (now: number) => {
+      raf = 0;
+      const dt = Math.min(.05, (now - (last || now)) / 1000);
+      last = now;
+      for (let i = 0; i < 4; i++) {
+        const h = dt / 4;
+        vx += (-2 * spring * vx - spring * spring * (x - tx)) * h; x += vx * h;
+        vy += (-2 * spring * vy - spring * spring * (y - ty)) * h; y += vy * h;
+      }
+      if (now > blinkAt + 180) blinkAt = now + 2400 + Math.random() * 3600;
+      const blink = now > blinkAt ? Math.abs(now - blinkAt - 90) / 90 : 1;
+      if (now > smileAt) { smileUntil = now + 2000 + Math.random() * 1000; smileAt = smileUntil + 5000 + Math.random() * 7000; }
+      joy += ((downloading || now < smileUntil ? 1 : 0) - joy) * Math.min(1, dt * 7);
+      // Smile = eyes squint shut and lift a little, then the arc bends up out of a flat line.
+      const squint = 1 - .9 * ramp(0, .6, joy), eyeFade = 1 - ramp(.55, .75, joy), arc = ramp(.5, .75, joy), bend = .15 + .85 * ramp(.5, 1, joy);
+      const lid = Math.max(.04, blink);
+      const scale = mascot.clientWidth || 1;
+      for (const layer of layers) {
+        const unit = layer.width / scale;
+        let ex = x * unit, ey = y * unit, eyeLid = lid;
+        if (layer.grid) { ex = Math.round(ex / layer.grid) * layer.grid; ey = Math.round(ey / layer.grid) * layer.grid; eyeLid = lid < .5 ? .2 : 1; }
+        const lift = -6 * unit * ramp(0, .6, joy);
+        const move = `translate(${ex.toFixed(2)}px, ${(ey + lift).toFixed(2)}px)`;
+        for (const eye of layer.eyes) { eye.style.transform = `${move} scaleY(${(eyeLid * squint).toFixed(3)})`; eye.style.opacity = eyeFade.toFixed(3); }
+        for (const smile of layer.smiles) { smile.style.transform = `${move} scaleY(${bend.toFixed(3)})`; smile.style.opacity = arc.toFixed(3); }
+      }
+      if (inView) raf = requestAnimationFrame(tick);
+    };
+    addEventListener("pointermove", (event) => {
+      const box = mascot.getBoundingClientRect();
+      const dx = event.clientX - (box.left + box.width / 2), dy = event.clientY - (box.top + box.height * .6);
+      const distance = Math.hypot(dx, dy) || 1, reach = Math.min(1, distance / 360) * 7;
+      tx = dx / distance * reach;
+      ty = dy / distance * reach;
+    }, { passive: true });
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      if (inView && !raf) { last = 0; raf = requestAnimationFrame(tick); }
+    }).observe(mascot);
+  }
+}
 
 renderStory();
 refreshSelection();
