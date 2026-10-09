@@ -6,6 +6,8 @@ export default {
   "intro": "Browse ClipClop features, improvements, and fixes by version.",
   "download": "Download",
   "source": "View original releases",
+  "versions": "Versions",
+  "hint": "Switch versions",
   "loading": "Loading release history…",
   "latest": "Latest",
   "none": "No public releases yet.",

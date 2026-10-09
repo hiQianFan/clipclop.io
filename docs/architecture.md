@@ -8,7 +8,7 @@ ClipClop 官网是采用 feature-based co-location 的 Astro 静态站点。域�
 src/pages/[lang]/         Astro 文件路由；只解析 locale 并装配 feature
 src/features/             按页面功能聚合结构、文案、脚本、样式和专属资产
 src/layouts/              共享本地化 HTML 文档、metadata 和站点外壳
-src/components/           已实际跨页面共享的 Header/Footer
+src/components/           已实际跨页面共享的 Header/Footer/子页面标题
 src/i18n/                 全站 Locale 合同与共享站点文案
 public/                   必须按稳定 URL 原样发布的静态文件
 Cloudflare Worker         语言协商、静态资源和下载路由
@@ -53,7 +53,8 @@ src/
 │   └── LocalizedLayout.astro
 ├── components/
 │   ├── SiteHeader.astro
-│   └── SiteFooter.astro
+│   ├── SiteFooter.astro
+│   └── PageHead.astro            下载、更新日志、隐私页共用的标题区
 └── i18n/
     ├── config.ts                 支持语言、Locale 与类型合同
     └── site/{en,zh}.ts           导航、页脚和外观控件文案

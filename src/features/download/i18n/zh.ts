@@ -13,6 +13,7 @@ export default {
   "copied": "已复制",
   "installTitle": "安装只需三步",
   "started": "下载已开始，接下来这样安装。",
+  "detected": "当前设备",
   "tabs": "选择系统",
   "macSteps": [
     { "title": "拖进“应用程序”", "body": "打开下载的 .dmg 文件，把 ClipClop 拖到“应用程序”文件夹。" },

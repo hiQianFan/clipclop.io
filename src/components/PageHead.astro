@@ -1,0 +1,20 @@
+---
+// Shared subpage header: small brand mark + title, intro, optional meta line and aside actions.
+interface Props { title: string; intro: string; }
+const { title, intro } = Astro.props;
+---
+<header class="page-head">
+  <div class="page-copy">
+    <h1><span class="page-mark" aria-hidden="true"></span>{title}</h1>
+    <p class="page-intro">{intro}</p>
+    <slot name="meta"/>
+  </div>
+  <slot name="aside"/>
+</header>
+<style>
+.page-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:24px 48px;padding-bottom:40px;border-bottom:1px solid var(--hairline)}
+h1{display:flex;align-items:center;gap:.22em;margin:0;font-size:clamp(2.5rem,5vw,3.75rem);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
+.page-mark{width:.78em;height:.78em;flex:none;background:currentColor;transform:rotate(-8deg);mask:url(/clipclop-mark.svg) center/contain no-repeat;-webkit-mask:url(/clipclop-mark.svg) center/contain no-repeat}
+.page-intro{max-width:62ch;margin:16px 0 0;color:var(--text-2);font-size:17px;line-height:1.65;text-wrap:pretty}
+@media(max-width:680px){.page-head{grid-template-columns:1fr;padding-bottom:32px}}
+</style>

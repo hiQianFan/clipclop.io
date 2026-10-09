@@ -6,6 +6,8 @@ export default {
   "intro": "按版本查看 ClipClop 的新增功能、改进和修复。",
   "download": "下载",
   "source": "查看原始记录",
+  "versions": "版本",
+  "hint": "切换版本",
   "loading": "正在读取更新日志…",
   "latest": "最新版本",
   "none": "暂无公开版本。",

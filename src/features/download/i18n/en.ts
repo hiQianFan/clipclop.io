@@ -13,6 +13,7 @@ export default {
   "copied": "Copied",
   "installTitle": "Install in three steps",
   "started": "Your download has started. Here's what's next.",
+  "detected": "This device",
   "tabs": "Choose your system",
   "macSteps": [
     { "title": "Drag into Applications", "body": "Open the downloaded .dmg and drag ClipClop into your Applications folder." },

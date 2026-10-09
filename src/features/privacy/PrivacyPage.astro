@@ -1,14 +1,38 @@
 ---
 import LocalizedLayout from "../../layouts/LocalizedLayout.astro";
+import PageHead from "../../components/PageHead.astro";
 import type { Locale } from "../../i18n/config";
 import { privacy } from "./i18n";
-import { Content as ZhPrivacy } from "./i18n/zh.md";
-import { Content as EnPrivacy } from "./i18n/en.md";
+import { Content as ZhPrivacy, getHeadings as zhHeadings } from "./i18n/zh.md";
+import { Content as EnPrivacy, getHeadings as enHeadings } from "./i18n/en.md";
 import "./privacy.css";
 const { locale } = Astro.props as { locale: Locale };
 const c = privacy[locale];
 const PrivacyContent = locale === "zh" ? ZhPrivacy : EnPrivacy;
+const sections = (locale === "zh" ? zhHeadings : enHeadings)().filter((heading) => heading.depth === 2);
 ---
 <LocalizedLayout locale={locale} page="privacy" title={c.title} description={c.description} ogTitle={c.ogTitle} ogType="article">
-  <main class="privacy"><article><PrivacyContent/></article></main>
+  <main class="privacy">
+    <PageHead title={c.heading} intro={c.intro}/>
+    <dl class="facts">{c.facts.map((fact) => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl>
+    <div class="doc">
+      <nav class="toc" aria-label={c.toc}><p>{c.toc}</p>{sections.map((section) => <a href={`#${section.slug}`}>{section.text}</a>)}</nav>
+      <article><PrivacyContent/></article>
+    </div>
+  </main>
+  <script slot="scripts" is:inline>
+    // Mark the section being read, like the selected row in the app's list.
+    const links = [...document.querySelectorAll(".toc a")];
+    const headings = links.map((link) => document.getElementById(decodeURIComponent(link.hash.slice(1))));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      let current = 0;
+      headings.forEach((heading, index) => { if (heading && heading.getBoundingClientRect().top < 140) current = index; });
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = headings.length - 1;
+      links.forEach((link, index) => index === current ? link.setAttribute("aria-current", "location") : link.removeAttribute("aria-current"));
+    };
+    addEventListener("scroll", () => { frame ||= requestAnimationFrame(update); }, { passive: true });
+    update();
+  </script>
 </LocalizedLayout>

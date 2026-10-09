@@ -1,7 +1,3 @@
-# Privacy
-
-<p class="intro">ClipClop keeps clipboard history on your device. Core capture, storage, search, preview, and paste operations need no cloud processing. The app has no account, cloud sync, telemetry, advertising, or content-analysis service, and it never opens copied URLs in the background.</p>
-
 ## Data stored locally
 
 ClipClop stores supported clipboard content locally, together with related source-application metadata, file-path references, and settings. It does not inspect content to decide whether it is sensitive, so clipboard history should not be treated as a password vault.
