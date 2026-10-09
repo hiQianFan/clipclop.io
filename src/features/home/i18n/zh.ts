@@ -6,8 +6,6 @@ export default {
   "paste": "粘贴",
   "tagline": "马不停贴，哒哒两步，快速粘贴。",
   "tagline2": "剪贴历史，本地保存，随手取用。",
-  "mac": "下载 macOS 版",
-  "windows": "下载 Windows 版",
   "actions": "操作",
   "search": "搜索剪贴板…",
   "filter": "筛选历史记录",

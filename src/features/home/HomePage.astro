@@ -8,7 +8,6 @@ import monoGlyph from "./assets/mascot-mono.svg?raw";
 
 const { locale } = Astro.props as { locale: Locale };
 const c = home[locale];
-const macDownload = "/download/macos", windowsDownload = "/download/windows";
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -51,7 +50,7 @@ const cell = (x: number, y: number, w = 1, h = 1) => `M${x * 16} ${y * 16}h${w *
 <main>
   <section class="hero" id="home" aria-labelledby="hero-title"><div class="hero-inner">
     <div class="hero-copy"><h1 id="hero-title">ClipClop<span class="hero-mark" aria-hidden="true"></span></h1><div class="hero-shortcuts"><span class="shortcut-hint"><kbd id="open-shortcut">⌃⌘C</kbd> <span>{c.open}</span></span><span class="shortcut-hint"><kbd>↵</kbd> <span>{c.paste}</span></span></div><p class="tagline">{c.tagline}<br>{c.tagline2}</p></div>
-    <div class="hero-actions"><a class="primary platform-download" href={macDownload} aria-label="Download ClipClop for macOS"><Icon name="simple-icons:apple" size={18} aria-hidden="true"/><span>{c.mac}</span></a><a class="secondary-download platform-download" href={windowsDownload} aria-label="Download ClipClop for Windows"><Icon name="simple-icons:windows" size={18} aria-hidden="true"/><span>{c.windows}</span></a></div>
+    <div class="hero-actions"><a class="primary platform-download" href={`/${locale}/download`}><Icon name="lucide:download" size={18} aria-hidden="true"/><span>{c.download}</span></a></div>
     <div class="logo mascot" data-style="flat" role="img" aria-label="ClipClop cow and horse mascot">{mascotLayers.map((layer) => (
       <svg class="mascot-layer" data-layer={layer.style} data-grid={layer.grid} viewBox={layer.viewBox} aria-hidden="true">
         {layer.image && <image href={layer.style === "flat" ? layer.image.href : undefined} data-href={layer.image.href} x={layer.image.x} y={layer.image.y} width={layer.image.width} height={layer.image.height}/>}

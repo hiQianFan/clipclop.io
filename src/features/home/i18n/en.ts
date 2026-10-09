@@ -6,8 +6,6 @@ export default {
   "paste": "Paste",
   "tagline": "Clip-clip, clop-clop. Two steps, fast.",
   "tagline2": "Clipboard history, saved locally and ready to reuse.",
-  "mac": "Download for macOS",
-  "windows": "Download for Windows",
   "actions": "Actions",
   "search": "Search clipboard…",
   "filter": "Filter history",
