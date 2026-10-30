@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>ClipClop promo</title>
+<style>
+  /* Tokens mirror ClipClop DESIGN.md. Stage units are half the output pixels; frames render at deviceScaleFactor 2. */
+  :root {
+    --bg-shell: #17181a; --bg-raised: #1e2022; --bg-hover: #242628; --bg-selected: #2a2d30; --hairline: #2c2f32;
+    --text-1: #ecedee; --text-2: #aeb3b7; --text-3: #8a9095; --action: #eceef0;
+    --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", "PingFang SC", monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: #000; overflow: hidden; }
+  #stage { position: relative; overflow: hidden; background: #111214; font-family: var(--sans); color: var(--text-1); }
+  .wide #stage { width: 960px; height: 540px; }
+  .tall #stage { width: 540px; height: 960px; }
+
+  #editor { position: absolute; inset: 0; background: var(--bg-shell); }
+  #editor .bar { height: 30px; display: flex; align-items: center; gap: 7px; padding: 0 12px; border-bottom: 1px solid var(--hairline); background: var(--bg-raised); }
+  #editor .bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3d40; }
+  #editor .bar span { margin-left: 14px; font-size: 11px; color: var(--text-2); }
+  #editor pre { padding: 18px 0; font: 15px/1.9 var(--mono); color: var(--text-1); white-space: pre-wrap; counter-reset: line; }
+  #editor pre .line { display: block; padding-left: 64px; position: relative; }
+  #editor pre .line::before { counter-increment: line; content: counter(line); position: absolute; left: 0; width: 44px; text-align: right; color: var(--text-3); }
+  #editor .caret { display: inline-block; width: 2px; height: 1.2em; vertical-align: -0.2em; background: var(--text-1); }
+  #editor .pasted { background: rgba(236, 238, 240, 0.14); border-radius: 3px; }
+
+  /* The app page keeps a 20px transparent margin around its window; crop to the window itself. */
+  #panel { position: absolute; width: 760px; height: 560px; transform-origin: 0 0; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
+  #panel iframe { position: absolute; left: -20px; top: -20px; width: 800px; height: 600px; border: 0; }
+
+  #keys { position: absolute; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; }
+  #keys kbd { font: 600 16px/1 var(--mono); padding: 9px 12px; border-radius: 6px; background: var(--bg-raised); color: var(--text-1);
+    border: 1px solid var(--hairline); box-shadow: 0 2px 0 var(--hairline); }
+
+  #caption { position: absolute; left: 0; right: 0; text-align: center; }
+  #caption .zh { font-size: 24px; font-weight: 680; letter-spacing: -0.01em; }
+  #caption .en { margin-top: 6px; font-size: 12px; color: var(--text-2); letter-spacing: 0.01em; }
+
+  #mascot { position: absolute; width: 96px; transform-origin: 50% 100%; }
+
+  .wide #panel { left: 214px; top: 36px; }
+  .wide #keys { top: 440px; }
+  .wide #caption { top: 482px; }
+  .wide #mascot { right: 22px; bottom: 16px; }
+  .tall #panel { left: 19px; top: 300px; }
+  .tall #keys { top: 700px; }
+  .tall #caption { top: 170px; padding: 0 30px; }
+  .tall #caption .zh { font-size: 30px; }
+  .tall #caption .en { font-size: 15px; }
+  .tall #mascot { left: 50%; margin-left: -60px; width: 120px; top: 780px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="editor"><div class="bar"><i></i><i></i><i></i><span id="file"></span></div><pre id="code"></pre></div>
+  <div id="panel"><iframe id="app" title="ClipClop"></iframe></div>
+  <div id="keys"></div>
+  <div id="caption"><div class="zh"></div><div class="en"></div></div>
+  <img id="mascot" src="../public/mascot-flat.webp" alt="">
+</div>
+<script>
+const ar = new URLSearchParams(location.search).get("ar") === "9x16" ? "tall" : "wide";
+document.documentElement.className = ar;
+
+// Timeline in seconds. `app` events are real key presses sent into the app frontend by render.mjs.
+const T = { summon: 1.0, search: 2.3, type: 2.7, commit: 4.1, end: 9.0 };
+const typed = "github";
+const PROMO = {
+  duration: T.end,
+  app: [
+    { t: T.search, press: "/" },
+    ...[...typed].map((ch, i) => ({ t: T.type + i * 0.12, press: ch })),
+    { t: T.commit, press: "ArrowDown" },
+    { t: T.commit + 0.45, press: "Enter" },
+  ],
+  keys: [
+    { t: T.summon, until: T.summon + 0.9, label: "⌃⌘C" },
+    { t: T.search, until: T.search + 0.35, label: "/" },
+    { t: T.commit, until: T.commit + 0.4, label: "↓" },
+    { t: T.commit + 0.45, until: T.commit + 1.2, label: "↵" },
+  ],
+  captions: [
+    { t: 1.2, until: 4.3, zh: "一个快捷键。", en: "One shortcut." },
+    { t: 4.9, until: 8.6, zh: "哒哒两步，粘回光标处。", en: "Clip-clop. Pasted right where you were." },
+  ],
+  clops: [T.summon],
+  panelIn: T.summon + 0.12,
+  pastedAt: null,
+  pasteText: "",
+};
+
+const $ = (s) => document.querySelector(s);
+const clamp = (x) => Math.min(1, Math.max(0, x));
+const easeOut = (x) => 1 - Math.pow(1 - clamp(x), 3);
+const window_ = (t, a, b, fade = 0.18) => Math.min(easeOut((t - a) / fade), easeOut((b - t) / fade));
+const scale = ar === "wide" ? 0.7 : 0.66;
+let now = 0, prompt = "", file = "";
+
+PROMO.init = ({ appUrl, scene }) => {
+  prompt = scene.prompt; file = scene.file;
+  $("#file").textContent = file;
+  $("#app").src = appUrl;
+  return new Promise((resolve) => $("#app").addEventListener("load", resolve, { once: true }));
+};
+
+addEventListener("message", ({ data }) => {
+  if (!data?.promo || data.type !== "paste" || PROMO.pastedAt !== null) return;
+  PROMO.pastedAt = now;
+  PROMO.pasteText = data.item.plain_text;
+  PROMO.clops.push(now);
+});
+
+PROMO.seek = (t) => {
+  now = t;
+  // Editor: prompt, caret, and the pasted text once the app reports paste_clip.
+  const pasted = PROMO.pastedAt !== null && t >= PROMO.pastedAt;
+  const caretOn = Math.floor(t * 1.8) % 2 === 0 || (t > T.summon && !pasted) ? "" : "hidden";
+  const lines = prompt.split("\n");
+  const last = lines.pop();
+  const esc = (s) => s.replace(/[&<]/g, (c) => ({ "&": "&amp;", "<": "&lt;" })[c]);
+  const tail = esc(last) + (pasted ? `<span class="pasted" style="background:rgba(236,238,240,${0.14 * (1 - easeOut((t - PROMO.pastedAt - 0.6) / 0.8))})">${esc(PROMO.pasteText)}</span>` : "")
+    + `<span class="caret" style="visibility:${caretOn}"></span>`;
+  $("#code").innerHTML = [...lines.map(esc), tail].map((l) => `<span class="line">${l || " "}</span>`).join("");
+
+  // Panel: appears on summon, disappears on paste.
+  const shown = t >= PROMO.panelIn && !pasted;
+  const p = shown ? easeOut((t - PROMO.panelIn) / 0.16) : pasted ? 1 - easeOut((t - PROMO.pastedAt) / 0.12) : 0;
+  const panel = $("#panel");
+  panel.style.opacity = p;
+  panel.style.transform = `scale(${scale * (0.985 + 0.015 * p)})`;
+  panel.style.visibility = p > 0 ? "visible" : "hidden";
+
+  $("#keys").innerHTML = PROMO.keys.filter((k) => t >= k.t && t < k.until)
+    .map((k) => `<kbd style="opacity:${window_(t, k.t, k.until, 0.08)};transform:translateY(${4 * (1 - easeOut((t - k.t) / 0.1))}px)">${k.label}</kbd>`).join("");
+
+  const c = PROMO.captions.find((c) => t >= c.t && t < c.until);
+  $("#caption .zh").textContent = c?.zh ?? "";
+  $("#caption .en").textContent = c?.en ?? "";
+  $("#caption").style.opacity = c ? window_(t, c.t, c.until, 0.25) : 0;
+
+  // Mascot: fades in, then lifts and stamps a hoof on every clop.
+  const m = $("#mascot");
+  const hop = PROMO.clops.reduce((y, at) => {
+    const k = (t - at + 0.12) / 0.3;
+    return k > 0 && k < 1 ? Math.max(y, Math.sin(Math.PI * k)) : y;
+  }, 0);
+  m.style.opacity = easeOut((t - 0.4) / 0.4);
+  m.style.transform = `translateY(${-10 * hop}px) scaleY(${1 - 0.04 * hop})`;
+};
+
+window.PROMO = PROMO;
+PROMO.seek(0);
+</script>
+</body>
+</html>

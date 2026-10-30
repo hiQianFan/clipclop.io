@@ -1,0 +1,8 @@
+{
+  "name": "clipclop-promo",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}
