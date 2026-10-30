@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<defs>
+<clipPath id="cow-face"><path d="M330 385C455 385 535 470 532 590C530 700 470 790 345 792C220 794 130 715 125 600C120 480 205 385 330 385Z"/></clipPath>
+<clipPath id="horse-face"><path d="M718 330C835 332 915 430 912 560C910 690 850 792 700 796C585 798 522 720 522 600C522 460 600 328 718 330Z"/></clipPath>
+</defs>
+<g class="horse">
+ <g fill="#6a2f20"><ellipse cx="928" cy="455" rx="46" ry="86" transform="rotate(-30 928 455)"/><ellipse cx="962" cy="556" rx="44" ry="86" transform="rotate(-12 962 556)"/><ellipse cx="948" cy="650" rx="40" ry="80" transform="rotate(8 948 650)"/><ellipse cx="902" cy="712" rx="36" ry="60" transform="rotate(26 902 712)"/></g>
+ <path fill="#fba232" d="M588 345C570 280 590 205 635 180C680 200 705 270 695 345Z"/><path fill="#8e3a22" d="M610 330C600 280 612 230 637 212C660 232 672 285 665 330Z"/>
+ <path fill="#fba232" d="M840 380C845 310 885 245 925 235C960 270 958 350 915 410Z"/><path fill="#8e3a22" d="M862 372C868 320 893 275 920 266C940 295 935 345 908 392Z"/>
+ <path fill="#fba232" d="M718 330C835 332 915 430 912 560C910 690 850 792 700 796C585 798 522 720 522 600C522 460 600 328 718 330Z"/>
+ <path fill="#fcf3e4" clip-path="url(#horse-face)" d="M646 380C686 352 762 354 792 384C788 462 768 540 760 640L640 640C652 552 652 462 646 380Z"/>
+ <ellipse fill="#fcd395" cx="672" cy="706" rx="150" ry="100"/>
+ <circle fill="#8b3f22" cx="597" cy="681" r="22"/><circle fill="#8b3f22" cx="741" cy="701" r="22"/>
+ <path fill="#6b3322" d="M700 262C740 225 820 228 850 268C860 290 848 305 830 300L715 300Z"/>
+ <ellipse fill="#824634" cx="708" cy="328" rx="104" ry="58" transform="rotate(-14 708 328)"/>
+ <ellipse fill="#824634" cx="785" cy="368" rx="54" ry="76" transform="rotate(30 785 368)"/>
+</g>
+<g class="cow">
+ <g transform="rotate(-14 98 482)"><ellipse fill="#fbf1e1" cx="98" cy="482" rx="72" ry="46"/><ellipse fill="#e8a874" cx="104" cy="486" rx="46" ry="25"/></g>
+ <g transform="rotate(-22 512 408)"><ellipse fill="#fbf1e1" cx="512" cy="408" rx="64" ry="42"/><ellipse fill="#e8a874" cx="506" cy="412" rx="42" ry="24"/></g>
+ <path fill="#fcd88a" d="M150 410C122 385 118 342 142 325C172 330 200 370 200 400Z"/><path fill="#fcd88a" d="M390 368C390 330 408 292 430 286C452 298 452 345 438 382Z"/>
+ <path fill="#fcf3e4" d="M330 385C455 385 535 470 532 590C530 700 470 790 345 792C220 794 130 715 125 600C120 480 205 385 330 385Z"/>
+ <path fill="#3a3a3c" clip-path="url(#cow-face)" d="M110 470C150 440 260 432 300 470C330 505 320 610 280 640C230 670 160 662 110 640Z"/>
+ <path fill="#3a3a3c" d="M212 380C222 330 300 312 360 322C405 330 420 365 408 392C396 415 370 408 350 398C330 390 318 420 300 438C280 455 250 445 240 425C232 410 212 405 212 380Z"/>
+ <ellipse fill="#fcd395" cx="360" cy="704" rx="165" ry="106"/>
+ <circle fill="#8b3f22" cx="292" cy="701" r="22"/><circle fill="#8b3f22" cx="444" cy="680" r="22"/>
+</g>
+<g class="eyes" fill="#141414">
+ <g class="eye"><ellipse cx="238" cy="566" rx="37" ry="41"/><circle fill="#fff" cx="228" cy="549" r="10"/></g>
+ <g class="eye"><ellipse cx="425" cy="545" rx="35" ry="40"/><circle fill="#fff" cx="415" cy="528" r="10"/></g>
+ <g class="eye"><ellipse cx="614" cy="535" rx="35" ry="40"/><circle fill="#fff" cx="604" cy="518" r="10"/></g>
+ <g class="eye"><ellipse cx="806" cy="565" rx="35" ry="40"/><circle fill="#fff" cx="796" cy="548" r="10"/></g>
+</g>
+</svg>
